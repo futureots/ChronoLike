@@ -115,7 +115,7 @@ public class DeckManager : MonoBehaviour
     public GameObject PopCard(int deckNum, int cardNum)
     {
         if (decks[deckNum].Count <= cardNum) return null;
-        Debug.Log(deckTransforms[deckNum].childCount + "and "+ decks[deckNum].Count+ "is" + cardNum);
+        //Debug.Log(deckTransforms[deckNum].childCount + "and "+ decks[deckNum].Count+ "is" + cardNum);
         GameObject cardObj = deckTransforms[deckNum].GetChild(cardNum).gameObject;
         decks[deckNum].RemoveAt(cardNum);
         return cardObj;

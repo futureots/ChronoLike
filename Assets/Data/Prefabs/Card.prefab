@@ -782,11 +782,17 @@ MonoBehaviour:
   title: {fileID: 445289820158858601}
   art: {fileID: 8697884345907165560}
   describtion: {fileID: 6245867357065573166}
-  caster: {fileID: 483295816463617641}
+  casterName: {fileID: 483295816463617641}
   cardBackground: {fileID: 6703789442399096332}
   resource: {fileID: 5315039822305097703}
   costPrefab: {fileID: 1061298450757938329, guid: 24a0dc65e5ce38d4aa542886b27abdcd, type: 3}
   cardTemplate: {fileID: 3025799433447278344}
+  cardName: 
+  image: {fileID: 0}
+  abilityDescription: 
+  isNeedTarget: 0
+  cardColor: 0
+  discardNum: 0
 --- !u!1 &8075134363411622358
 GameObject:
   m_ObjectHideFlags: 0

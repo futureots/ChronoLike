@@ -11,7 +11,7 @@ public class CardViz : MonoBehaviour
     public TextMeshProUGUI title;
     public Image art;
     public TextMeshProUGUI describtion;
-    public TextMeshProUGUI caster;
+    public TextMeshProUGUI casterName;
     public Image cardBackground;
     public Transform resource;
     public GameObject costPrefab;
@@ -19,11 +19,40 @@ public class CardViz : MonoBehaviour
     public GameObject cardTemplate;
 
 
+    public CardData cardData { get; private set; }                                                              //카드 원본
+    public Character caster;                                                           //시전자
+    public Sprite image;
+    public bool isNeedTarget;
+    public Dictionary<ColorType, int> costs { get; private set; }
+    public List<Ability> cardAbility;                                                   //카드 능력(키워드)
+    public int discardNum;                                                      //카드 사용후 버려질지 소멸될지, 덱 번호값
+
+
+
+
     public Image raycastTarget { get; private set; }
 
     private void Awake()
     {
         raycastTarget = transform.GetChild(1).GetComponent<Image>();
+    }
+    public void LoadCard(CardData inCardData, Character inCaster=null)
+    {
+        if (inCardData == null) return;
+        cardData = inCardData;
+        gameObject.name = cardData.title;
+        title.text = cardData.title;
+        image = SpriteConverter.LoadSpriteFile(cardData.imagePath);
+        art.sprite = image;
+        caster = inCaster;
+        if (caster != null)
+        {
+            casterName.text = caster.name;
+        }
+        
+        isNeedTarget = cardData.isNeedTarget;
+        costs = cardData.costs;
+        cardAbility = cardData.cardAbility;
     }
     public void LoadCard(Card obj)
     {
@@ -35,7 +64,7 @@ public class CardViz : MonoBehaviour
         art.sprite = card.art;
         if(card.caster != null)
         {
-            caster.text = card.caster.name;
+            casterName.text = card.caster.name;
         }
         card.UpdateAbilityDescribtion();
         describtion.text = card.vizDescription;
