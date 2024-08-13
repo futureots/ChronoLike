@@ -1,0 +1,30 @@
+{
+
+  "$type": "CardData, Assembly-CSharp",
+  "title": "Heal",
+  "imagePath": "Assets/Data/Sprites\\Amumu.png",
+  "abilityDescription": "대상을 {0}만큼 회복시킨다.",
+  "isNeedTarget": true,
+  "cardColor": 3,
+  "costs": {
+    "$type": "System.Collections.Generic.Dictionary`2[[ColorType, Assembly-CSharp],[System.Int32, mscorlib]], mscorlib",
+    "White": 1
+  },
+  "cardAbility": {
+    "$type": "System.Collections.Generic.List`1[[Ability, Assembly-CSharp]], mscorlib",
+    "$values": [
+      {
+        "$type": "Ability, Assembly-CSharp",
+        "effect": {
+          "$type": "DealAndHeal, Assembly-CSharp",
+          "isDeal": false,
+          "basicValue": 0,
+          "coef": 1.0,
+          "statusName": "Atk",
+          "targets": null
+        },
+        "type": { "$type": "TTarget, Assembly-CSharp" }
+      }
+    ]
+  }
+}

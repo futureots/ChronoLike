@@ -1,0 +1,48 @@
+{
+  
+  "$type": "CardData, Assembly-CSharp",
+  "title": "Hemophillia",
+  "imagePath": "Assets/Data/Sprites\\Amumu.png",
+  "abilityDescription": "대상에게 {1}의 피해를 입히고 출혈을 {0}부여한다.",
+  "isNeedTarget": true,
+  "cardColor": 1,
+  "costs": {
+    "$type": "System.Collections.Generic.Dictionary`2[[ColorType, Assembly-CSharp],[System.Int32, mscorlib]], mscorlib",
+    "Blue": 1,
+    "Empty": 1
+  },
+  "cardAbility": {
+    "$type": "System.Collections.Generic.List`1[[Ability, Assembly-CSharp]], mscorlib",
+    "$values": [
+      {
+        "$type": "Ability, Assembly-CSharp",
+        "effect": {
+          "$type": "AddBuff, Assembly-CSharp",
+          "buff": {
+            "$type": "Bleed, Assembly-CSharp",
+            "iconPath": "Assets/Data/Sprites\\Bleed.png",
+            "target": null,
+            "countNum": 0
+          },
+          "basicValue": 2,
+          "coef": 0.0,
+          "statusName": null,
+          "targets": null
+        },
+        "type": { "$type": "TTarget, Assembly-CSharp" }
+      },
+      {
+        "$type": "Ability, Assembly-CSharp",
+        "effect": {
+          "$type": "DealAndHeal, Assembly-CSharp",
+          "isDeal": true,
+          "basicValue": 0,
+          "coef": 1.0,
+          "statusName": "Atk",
+          "targets": null
+        },
+        "type": { "$type": "TTarget, Assembly-CSharp" }
+      }
+    ]
+  }
+}

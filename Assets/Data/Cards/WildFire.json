@@ -1,0 +1,37 @@
+{
+  
+  "$type": "CardData, Assembly-CSharp",
+  "title": "WildFire",
+  "imagePath": "Assets/Data/Sprites\\Amumu.png",
+  "abilityDescription": "대상에게 {1}의 피해를 입힌다. 이카드를 사용할 때마다 이번 전투동안 피해량이 {0}증가한다.",
+  "isNeedTarget": true,
+  "cardColor": 0,
+  "costs": {
+    "$type": "System.Collections.Generic.Dictionary`2[[ColorType, Assembly-CSharp],[System.Int32, mscorlib]], mscorlib",
+    "Red": 1
+  },
+  "cardAbility": {
+    "$type": "System.Collections.Generic.List`1[[Ability, Assembly-CSharp]], mscorlib",
+    "$values": [
+      {
+        "$type": "Ability, Assembly-CSharp",
+        "effect": {
+          "$type": "EnhanceValue, Assembly-CSharp",
+          "keyWord": {
+            "$type": "DealAndHeal, Assembly-CSharp",
+            "isDeal": true,
+            "basicValue": 0,
+            "coef": 1.0,
+            "statusName": "Atk",
+            "targets": null
+          },
+          "basicValue": 3,
+          "coef": 0.0,
+          "statusName": null,
+          "targets": null
+        },
+        "type": { "$type": "TTarget, Assembly-CSharp" }
+      }
+    ]
+  }
+}

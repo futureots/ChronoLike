@@ -1,0 +1,57 @@
+{
+  
+  "$type": "CharacterData, Assembly-CSharp",
+  "name": "Undine",
+  "type": 1,
+  "statusList": {
+    "$type": "System.Collections.Generic.List`1[[Status, Assembly-CSharp]], mscorlib",
+    "$values": [
+      {
+        "$type": "Status, Assembly-CSharp",
+        "name": "Atk",
+        "max": 999,
+        "min": 0,
+        "value": 5
+      },
+      {
+        "$type": "Status, Assembly-CSharp",
+        "name": "Hp",
+        "max": 999,
+        "min": 0,
+        "value": 30
+      },
+      {
+        "$type": "Status, Assembly-CSharp",
+        "name": "Def",
+        "max": 999,
+        "min": 0,
+        "value": 10
+      }
+    ]
+  },
+  "characterAbility": {
+    "$type": "System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[Ability, Assembly-CSharp]], mscorlib",
+    "TurnStart": {
+      "$type": "Ability, Assembly-CSharp",
+      "effect": {
+        "$type": "AddBuff, Assembly-CSharp",
+        "buff": {
+          "$type": "Poison, Assembly-CSharp",
+          "iconPath": "Assets/Data/Sprites\\Bubble.png",
+          "target": null,
+          "countNum": 0
+        },
+        "basicValue": 1,
+        "coef": 0.0,
+        "statusName": null,
+        "targets": null
+      },
+      "type": {
+        "$type": "TRandom, Assembly-CSharp",
+        "num": 1,
+        "charSetCode": 1
+      }
+    }
+  },
+  "artPath": "Assets/Data/Sprites\\sc_354.jpg"
+}
