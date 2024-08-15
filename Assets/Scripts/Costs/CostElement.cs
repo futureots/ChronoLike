@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
+using TMPro;
 
 public enum ColorType
 {
@@ -14,22 +15,14 @@ public enum ColorType
 };
 
 
-public class CostElement
+public class CostElement : MonoBehaviour
 {
     public ColorType costType;
     public List<Status> costStatus;
-    public bool isZero;
 
-    public CostElement(ColorType type,int basicCost=0)
-    {
-        costStatus = new();
-        costType = type;
-        Status maxCost = new("MaxCost", basicCost, 10, 0);
-        Status currentCost = new("CurrentCost", basicCost, 100, 0);
-        costStatus.Add(maxCost);
-        costStatus.Add(currentCost);
-        CheckEmpty();
-    }
+
+    public Button button;
+    public TextMeshProUGUI text;
 
     public void RefillCost()
     {
@@ -43,17 +36,38 @@ public class CostElement
     {
         Status currentCost = Status.GetStatus(costStatus, "CurrentCost");
         if (currentCost == null) return;
-
-        if (currentCost.value == 0) isZero = true;
-        else isZero = false;
+        Render();
+        if (currentCost.value == 0) button.interactable = false;
+        else button.interactable = true;
     }
-    public void EditCost(int value = 1)
+    public void EditCost(int value = 1, bool isMaxCost=false)
     {
-        Status currentCost = Status.GetStatus(costStatus, "CurrentCost");
-        if (currentCost == null) return;
-        currentCost.EditValue(value, Status.Operation.Add);
+        Status cost;
+        cost = costStatus[isMaxCost ? 0 : 1];
+        if (cost == null) return;
+        cost.EditValue(value, Status.Operation.Add);
         CheckEmpty();
     }
+    public void Render()
+    {
+        int maxCost = Status.GetStatus(costStatus, "MaxCost").value;
+        int currentCost = Status.GetStatus(costStatus, "CurrentCost").value;
+        text.text = currentCost + "/" + maxCost;
+    }
 
+
+
+
+
+
+    [ContextMenu("setCost")]
+    public void SetCost()
+    {
+        costStatus = new List<Status>();
+        Status maxCost = new Status("MaxCost", 0, 10, 0);
+        Status currentCost = new Status("CurrentCost", 0, 100, 0);
+        costStatus.Add(maxCost);
+        costStatus.Add(currentCost);
+    }
 }
 

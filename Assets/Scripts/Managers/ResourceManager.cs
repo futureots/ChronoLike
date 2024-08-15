@@ -26,7 +26,7 @@ public class ResourceManager : MonoBehaviour
 
     List<Card> playerDeck;
     List<Character> allyList,enemyList;
-    List<CostElement> costList;
+    Dictionary<ColorType, int> costList;
 
 
     public enum Reward
@@ -156,28 +156,19 @@ public class ResourceManager : MonoBehaviour
 
     }
 
-    public List<CostElement> CreateCost()
+    public Dictionary<ColorType, int> CreateCost()
     {
         //캐릭터 리소스에서 캐릭터 컬러타입을 추출
         Dictionary<ColorType, int> costList = new();
         
         //추출한 컬러타입으로 코스트엘리먼트 생성
-        List<CostElement> result = new();
         for(int i = 0; i < 5; i++)
         {
             ColorType colorType = (ColorType)i;
-            CostElement costElement;
-            if (costList.ContainsKey(colorType))
-            {
-                costElement = new(colorType, costList[colorType]);
-            }
-            else
-            {
-                costElement = new(colorType,2);
-            }
-            result.Add(costElement);
+            int cost = 2;
+            costList.Add(colorType, cost);
         }
-        return result;
+        return costList;
     }
     public void SetReward(Reward reward)
     {

@@ -13,12 +13,20 @@ public class CostManager : MonoBehaviour
 
     private void Awake()
     {
-        costList = new();
+        
     }
 
-    public void SetCostList(List<CostElement> costElementList)
+    public void SetCostList(Dictionary<ColorType, int> costElementList)
     {
-        costList.AddRange(costElementList);
+        foreach (var item in costElementList)
+        {
+            Status maxCost = Status.GetStatus(costList[(int)item.Key].costStatus, "MaxCost");
+            if (maxCost != null)
+            {
+                maxCost.value = item.Value;
+            }
+            
+        }
         FillCost();
     }
     public void FillCost()//코스트 패널 채우고 업데이트
@@ -27,28 +35,25 @@ public class CostManager : MonoBehaviour
         {
             //코스트 채우기
             costList[i].RefillCost();
-
-            //UI랜더링
-            RenderCost(i);
         }
     }
 
     public ColorType FindMostCost()//가지고있는 코스트 중에 가장 많이 남은 코스트 색 반환
     {
         CostElement cost = costList[0];
-        Status comparison = Status.GetStatus(cost.costStatus, "CurrentCost");
+        Status comparison = cost.costStatus[1];
         foreach (var item in costList)
         {
-            Status currentCost = Status.GetStatus(item.costStatus, "CurrentCost");
+            Status currentCost = cost.costStatus[1];
             if (currentCost.value > comparison.value)
             {
                 cost = item;
-                comparison = Status.GetStatus(cost.costStatus, "CurrentCost");
+                comparison = cost.costStatus[1];
             }
             else if (currentCost.value == comparison.value)
             {
-                Status maxComparison = Status.GetStatus(cost.costStatus, "MaxCost");
-                Status maxCost = Status.GetStatus(item.costStatus, "MaxCost");
+                Status maxComparison = cost.costStatus[0];
+                Status maxCost = cost.costStatus[0];
                 if (maxCost.value>maxComparison.value)
                 {
                     cost = item;
@@ -72,15 +77,12 @@ public class CostManager : MonoBehaviour
             costTypeNum = (int)costType;
         }
 
-        if (costList[costTypeNum].isZero) return;
         //사용한 코스트 1개 차감
         costList[costTypeNum].EditCost(-1);
 
         //실린더 코스트 1개 추가
         costCylinder.CreateSingleCost(costType);
 
-        //현재 코스트 표시
-        RenderCost(costTypeNum);
         return;
     }
     public void ClearCylinder()// 실린더에 있던 코스트 되돌리기
@@ -88,20 +90,8 @@ public class CostManager : MonoBehaviour
         foreach(var item in costCylinder.colorCost)
         {
             costList[(int)item.Key].EditCost(item.Value);
-            RenderCost((int)item.Key);
         }
         costCylinder.ClearCylinder();
-    }
-    public void RenderCost(int typeNum)//코스트 UI 업데이트
-    {
-        GameObject costBtn = costPanel.transform.GetChild(typeNum).gameObject;
-        costBtn.GetComponent<Button>().interactable = !costList[typeNum].isZero;
-
-        Status currentCost = Status.GetStatus(costList[typeNum].costStatus, "CurrentCost");
-        Status maxCost = Status.GetStatus(costList[typeNum].costStatus, "MaxCost");
-
-        string costText = currentCost.value.ToString() +"/" + maxCost.value.ToString();
-        costPanel.transform.GetChild(typeNum).GetComponentInChildren<TextMeshProUGUI>().text = costText;
     }
     
 
@@ -130,7 +120,9 @@ public class CostManager : MonoBehaviour
         Dictionary<ColorType, int> remainCosts = new();
         foreach (var item in costList)
         {
-            Status currentCost = Status.GetStatus(item.costStatus, "CurrentCost");
+            Debug.Log(item.costType);
+            
+            Status currentCost = item.costStatus[1];
             if (currentCost.value == 0) continue;
             remainCosts.Add(item.costType, currentCost.value);
         }

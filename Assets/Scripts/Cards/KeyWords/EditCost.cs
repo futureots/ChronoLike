@@ -26,7 +26,6 @@ public class EditCost : KeyWord
         }
         Status maxCost = Status.GetStatus(GameManager.currentManager.costManager.costList[colorNum].costStatus, targetCost);
         maxCost.EditValue(1, Status.Operation.Add);
-        GameManager.currentManager.costManager.RenderCost(colorNum);
     }
     public override List<string> GetVariables(Character caster, Character target = null)
     {
