@@ -16,9 +16,9 @@ public class EnhanceValue : ValueKeyWord
     }
     public EnhanceValue(ValueKeyWord inKeyWord,float inCoef, string inStatusName) : this(inKeyWord,0, inCoef, inStatusName) { }
 
-    public override void Activate(GameManager inManager, Character inCaster)
+    public override void Activate(Character caster, Card card, Character target)
     {
-        keyWord.Activate(inManager, inCaster);
+        keyWord.Activate(caster,card,target);
 
         EnhanceKeyWord();
     }
@@ -52,9 +52,5 @@ public class EnhanceValue : ValueKeyWord
         if (keyWord == null) return;
         keyWord.basicValue += basicValue;
         keyWord.coef += coef;
-    }
-    public override void SetTarget(List<Character> inTargets)
-    {
-        keyWord.SetTarget(inTargets);
     }
 }

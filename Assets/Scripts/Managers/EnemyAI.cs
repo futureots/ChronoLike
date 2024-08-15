@@ -29,7 +29,7 @@ public class EnemyAI : MonoBehaviour
         if (card.isNeedTarget)
         {
             TRandom random = new(1, 1);
-            charManager.currentTarget = random.GetTarget(charManager, false)[0];
+            charManager.currentTarget = random.GetTarget(false)[0];
         }
 
 

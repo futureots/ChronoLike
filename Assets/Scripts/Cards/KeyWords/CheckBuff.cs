@@ -17,29 +17,24 @@ public class CheckBuff : KeyWord
     
 
 
-    public override void Activate(GameManager inManager, Character inCaster)
+    public override void Activate(Character caster,Card card, Character target)
     {
         
         if (type == null) return;
         if (type.IsSubclassOf(typeof(Buff)) || type == typeof(Buff))
         {
             int count = 0;
-            foreach (var item in targets)
+
+            for (int i = 0; i < target.buffs.Count; i++)
             {
-                
-                for (int i = 0; i < item.buffs.Count; i++)
+                if (target.buffs[i].GetType().IsSubclassOf(type))
                 {
-                    if (item.buffs[i].GetType().IsSubclassOf(type))
-                    {
-                        count+= item.buffs[i].countNum;
-                    }
+                    count+= target.buffs[i].countNum;
                 }
-                keyWord.SetTarget(item);
- 
             }
             for (int i = 0; i < count; i++)
             {
-                keyWord.Activate(inManager, inCaster);
+                keyWord.Activate(caster,card, target);
                 if (isDisposable) return;
             }
         }

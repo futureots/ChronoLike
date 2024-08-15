@@ -12,21 +12,21 @@ public class EditCost : KeyWord
         color = inColor;
         isMaxCost = inIsMaxCost;
     }
-    public override void Activate(GameManager inManager,Character inCaster)
+    public override void Activate(Character caster,Card card, Character target)
     {
         int colorNum = (int)color;
-        string target;
+        string targetCost;
         if (isMaxCost)
         {
-            target = "MaxCost";
+            targetCost = "MaxCost";
         }
         else
         {
-            target = "CurrentCost";
+            targetCost = "CurrentCost";
         }
-        Status maxCost = Status.GetStatus(inManager.costManager.costList[colorNum].costStatus, target);
+        Status maxCost = Status.GetStatus(GameManager.currentManager.costManager.costList[colorNum].costStatus, targetCost);
         maxCost.EditValue(1, Status.Operation.Add);
-        inManager.costManager.RenderCost(colorNum);
+        GameManager.currentManager.costManager.RenderCost(colorNum);
     }
     public override List<string> GetVariables(Character caster, Character target = null)
     {

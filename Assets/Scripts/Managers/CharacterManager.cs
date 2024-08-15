@@ -50,7 +50,7 @@ public class CharacterManager : MonoBehaviour
 
             }
 
-            ApplyCharAbility(item);
+            //ApplyCharAbility(item);
 
         }
 
@@ -81,7 +81,7 @@ public class CharacterManager : MonoBehaviour
     {
         Character inCharacter = inCharacterViz.character;
         GameObject ch = inCharacterViz.gameObject;
-        DeplyCharAbility(inCharacter);
+        //DeplyCharAbility(inCharacter);
         for (int i = 0; i < playableCharacters.Count; i++)
         {
             if (playableCharacters[i].Equals(inCharacter))
@@ -105,75 +105,75 @@ public class CharacterManager : MonoBehaviour
     }
 
 
-    public void ApplyCharAbility(Character inCharacter)
-    {
-        if (inCharacter.characterAbility == null) return;
-        
-        foreach (var item in inCharacter.characterAbility)
-        {
-            item.Value.SetAbility(GameManager.currentManager, inCharacter);
-            if (inCharacter.isAlly)
-            {
-                switch (item.Key)
-                {
-                    case "TurnStart":
-                        GameManager.currentManager.PlayerTurnStart += new GameManager.AbilityActivate(item.Value.Execute);
-                        break;
-                    case "TurnEnd":
-                        GameManager.currentManager.PlayerTurnEnd += new GameManager.AbilityActivate(item.Value.Execute);
-                        break;
-                    case "GameStart":
-                        GameManager.currentManager.GameStart += new GameManager.AbilityActivate(item.Value.Execute);
-                        break;  
-                }
-            }
-            else
-            {
-                switch (item.Key)
-                {
-                    case "TurnStart":
-                        GameManager.currentManager.EnemyTurnStart += new GameManager.AbilityActivate(item.Value.Execute);
-                        break;
-                    case "TurnEnd":
-                        GameManager.currentManager.EnemyTurnEnd += new GameManager.AbilityActivate(item.Value.Execute);
-                        break;
-                }
-            }
-        }
-        
-        
-    }
-    public void DeplyCharAbility(Character inCharacter)
-    {
-        if (inCharacter.characterAbility == null) return;
-        foreach (var item in inCharacter.characterAbility)
-        {
-            if (inCharacter.isAlly)
-            {
-                switch (item.Key)
-                {
-                    case "TurnStart":
-                        GameManager.currentManager.PlayerTurnStart -= new GameManager.AbilityActivate(item.Value.Execute);
-                        break;
-                    case "TurnEnd":
-                        GameManager.currentManager.PlayerTurnEnd -= new GameManager.AbilityActivate(item.Value.Execute);
-                        break;
-                }
-            }
-            else
-            {
-                switch (item.Key)
-                {
-                    case "TurnStart":
-                        GameManager.currentManager.EnemyTurnStart -= new GameManager.AbilityActivate(item.Value.Execute);
-                        break;
-                    case "TurnEnd":
-                        GameManager.currentManager.EnemyTurnEnd -= new GameManager.AbilityActivate(item.Value.Execute);
-                        break;
-                }
-            }
-        }
-        //Debug.Log("Team player count = " + playableCharacters.Count + "// Team enemy count = " + aiCharacters.Count);
+    /*   public void ApplyCharAbility(Character inCharacter)
+       {
+           if (inCharacter.characterAbility == null) return;
 
-    }
+           foreach (var item in inCharacter.characterAbility)
+           {
+               item.Value.SetAbility(GameManager.currentManager, inCharacter);
+               if (inCharacter.isAlly)
+               {
+                   switch (item.Key)
+                   {
+                       case "TurnStart":
+                           GameManager.currentManager.PlayerTurnStart += new GameManager.AbilityActivate(item.Value.Execute);
+                           break;
+                       case "TurnEnd":
+                           GameManager.currentManager.PlayerTurnEnd += new GameManager.AbilityActivate(item.Value.Execute);
+                           break;
+                       case "GameStart":
+                           GameManager.currentManager.GameStart += new GameManager.AbilityActivate(item.Value.Execute);
+                           break;  
+                   }
+               }
+               else
+               {
+                   switch (item.Key)
+                   {
+                       case "TurnStart":
+                           GameManager.currentManager.EnemyTurnStart += new GameManager.AbilityActivate(item.Value.Execute);
+                           break;
+                       case "TurnEnd":
+                           GameManager.currentManager.EnemyTurnEnd += new GameManager.AbilityActivate(item.Value.Execute);
+                           break;
+                   }
+               }
+           }
+
+
+       }
+       public void DeplyCharAbility(Character inCharacter)
+       {
+           if (inCharacter.characterAbility == null) return;
+           foreach (var item in inCharacter.characterAbility)
+           {
+               if (inCharacter.isAlly)
+               {
+                   switch (item.Key)
+                   {
+                       case "TurnStart":
+                           GameManager.currentManager.PlayerTurnStart -= new GameManager.AbilityActivate(item.Value.Execute);
+                           break;
+                       case "TurnEnd":
+                           GameManager.currentManager.PlayerTurnEnd -= new GameManager.AbilityActivate(item.Value.Execute);
+                           break;
+                   }
+               }
+               else
+               {
+                   switch (item.Key)
+                   {
+                       case "TurnStart":
+                           GameManager.currentManager.EnemyTurnStart -= new GameManager.AbilityActivate(item.Value.Execute);
+                           break;
+                       case "TurnEnd":
+                           GameManager.currentManager.EnemyTurnEnd -= new GameManager.AbilityActivate(item.Value.Execute);
+                           break;
+                   }
+               }
+           }
+           //Debug.Log("Team player count = " + playableCharacters.Count + "// Team enemy count = " + aiCharacters.Count);
+
+       }*/
 }

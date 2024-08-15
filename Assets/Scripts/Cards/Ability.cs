@@ -5,35 +5,27 @@ using UnityEngine;
 
 public class Ability
 {
-    GameManager manager;
-    Character caster;
     public KeyWord effect;
     public TargetType type;
     public Ability(KeyWord inKeyWord, TargetType targetType=null)
     {
         effect = inKeyWord;
         type = targetType;
-        manager = null;
-        caster = null;
     }
-    public void Execute()
+    public void Execute(Card card)
     {
         if (effect == null) return;
-        if (manager == null || caster == null) return;
+        Character caster = card.caster;
+        List<Character> targets = new List<Character>();
         if (type != null)
         {
-            effect.SetTarget(type.GetTarget(manager.characterManager, caster.isAlly));
+            targets.AddRange(type.GetTarget(caster.isAlly));
         }
-        else
+        foreach (Character target in targets) 
         {
-            effect.SetTarget(caster);
+            effect.Activate(caster, card, target);
+
         }
-        effect.Activate(manager,caster);
-    }
-    public void SetAbility(GameManager inManager,Character inCaster)
-    {
-        manager = inManager;
-        caster = inCaster;
     }
 }
 //프로퍼티, 키워드 타겟타입은 3개 커플링

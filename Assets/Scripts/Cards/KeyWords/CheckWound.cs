@@ -12,15 +12,15 @@ public class CheckWound : KeyWord
         keyWord = inKeyWord;
         isHpFull = inIsHpFull;
     }
-    public override void Activate(GameManager inManager, Character inCaster)
+    public override void Activate(Character caster, Card card, Character target)
     {
         bool isFull;
-        List<Status> statuses = inCaster.statusList;
+        List<Status> statuses = caster.statusList;
         isFull = (Status.GetStatus(statuses, "Hp").value == Status.GetStatus(statuses, "CurrentHp").value);
         Debug.Log("Hp = " + Status.GetStatus(statuses, "Hp").value + "// CurrentHp = " + Status.GetStatus(statuses, "CurrentHp").value + " isFull = " + isFull);
         if(isFull == isHpFull)
         {
-            keyWord.Activate(inManager, inCaster);
+            keyWord.Activate(caster,card,target);
         }
     }
     public override List<string> GetVariables(Character caster, Character target = null)
@@ -32,13 +32,5 @@ public class CheckWound : KeyWord
         variables.Add(str);
         variables.AddRange(keyWord.GetVariables(caster, target));
         return variables;
-    }
-    public override void SetTarget(Character inTargets)
-    {
-        keyWord.SetTarget(inTargets);
-    }
-    public override void SetTarget(List<Character> inTargets)
-    {
-        keyWord.SetTarget(inTargets);
     }
 }

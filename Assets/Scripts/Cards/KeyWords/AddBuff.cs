@@ -14,20 +14,18 @@ public class AddBuff : ValueKeyWord
         statusName = inStatusName;
     }
     public AddBuff(Buff inBuff, float inCoef = 0, string inStatusName = null) : this(inBuff, 0, inCoef, inStatusName) { }
-    public override void Activate(GameManager inManager, Character inCaster)
+    public override void Activate(Character caster, Card card, Character target)
     {
-        if (targets == null) return;
+        if (target == null) return;
         buff.countNum = basicValue;
         if (statusName != null)
         {
-            Status status = Status.GetStatus(inCaster.statusList, statusName);
+            Status status = Status.GetStatus(caster.statusList, statusName);
             buff.countNum+= (int)(coef * status.value);
         }
 
-        foreach (var item in targets)
-        {
-            item.AttachBuff(buff.Clone());
-        }
+
+        target.AttachBuff(buff.Clone());
     }
     public override List<string> GetVariables(Character caster, Character target = null)
     {

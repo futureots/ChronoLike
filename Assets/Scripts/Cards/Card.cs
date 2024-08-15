@@ -51,8 +51,7 @@ public class Card
         if (cardAbility == null) return-1;
         foreach (var ability in cardAbility)
         {
-            ability.SetAbility(manager, caster);
-            ability.Execute();
+            ability.Execute(this);
         }
         if (discardNum < 0 || discardNum > 3) return-1;
         return discardNum;

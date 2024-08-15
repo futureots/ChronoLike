@@ -20,20 +20,20 @@ public class CheckCost : KeyWord
     }
 
 
-    public override void Activate(GameManager inManager, Character inCaster)
+    public override void Activate(Character caster,Card card, Character target)
     {
         int inCostNum;
         if (isMax)
         {
-            inCostNum = Status.GetStatus(inManager.costManager.costList[(int)color].costStatus, "MaxCost").value;
+            inCostNum = Status.GetStatus(GameManager.currentManager.costManager.costList[(int)color].costStatus, "MaxCost").value;
         }
         else
         {
-            inCostNum = Status.GetStatus(inManager.costManager.costList[(int)color].costStatus, "CurrentCost").value;
+            inCostNum = Status.GetStatus(GameManager.currentManager.costManager.costList[(int)color].costStatus, "CurrentCost").value;
         }
         if (inCostNum >= costNum)
         {
-            keyWord.Activate(inManager,inCaster);
+            keyWord.Activate(caster,card,target);
         }
 
     }
@@ -49,12 +49,5 @@ public class CheckCost : KeyWord
         variable.AddRange(keyWord.GetVariables(caster,target));
         return variable;
     }
-    public override void SetTarget(List<Character> inTargets)
-    {
-        keyWord.SetTarget(inTargets);
-    }
-    public override void SetTarget(Character inTargets)
-    {
-        keyWord.SetTarget(inTargets);
-    }
+
 }
