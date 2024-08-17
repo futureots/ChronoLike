@@ -427,7 +427,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3764706, g: 0.3764706, b: 0.3764706, a: 1}
+  m_Color: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -787,11 +787,7 @@ MonoBehaviour:
   resource: {fileID: 5315039822305097703}
   costPrefab: {fileID: 1061298450757938329, guid: 24a0dc65e5ce38d4aa542886b27abdcd, type: 3}
   cardTemplate: {fileID: 3025799433447278344}
-  cardName: 
-  image: {fileID: 0}
-  abilityDescription: 
   isNeedTarget: 0
-  cardColor: 0
   discardNum: 0
 --- !u!1 &8075134363411622358
 GameObject:

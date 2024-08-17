@@ -21,7 +21,7 @@ public class CardViz : MonoBehaviour
 
     public CardData cardData { get; private set; }                                                              //카드 원본
     public Character caster;                                                           //시전자
-    public Sprite image;
+    
     public bool isNeedTarget;
     public Dictionary<ColorType, int> costs { get; private set; }
     public List<Ability> cardAbility;                                                   //카드 능력(키워드)
@@ -42,7 +42,7 @@ public class CardViz : MonoBehaviour
         cardData = inCardData;
         gameObject.name = cardData.title;
         title.text = cardData.title;
-        image = SpriteConverter.LoadSpriteFile(cardData.imagePath);
+        Sprite image = SpriteConverter.LoadSpriteFile(cardData.imagePath);
         art.sprite = image;
         caster = inCaster;
         if (caster != null)
