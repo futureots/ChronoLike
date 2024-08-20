@@ -12,12 +12,12 @@ public class TRandom : TargetType
         num = inNum;
         charSetCode = inCharSetCode;
     }
-    public override List<Character> GetTarget(bool isPlayerTeam)//중복 없이 랜덤 인원 뽑기(중복이 필요하면 프로퍼티 두개 사용)
+    public override List<CharacterViz> GetTarget(bool isPlayerTeam)//중복 없이 랜덤 인원 뽑기(중복이 필요하면 프로퍼티 두개 사용)
     {
-        List<Character> characters = new();
+        List<CharacterViz> characters = new();
         characters.AddRange(GameManager.currentManager.characterManager.playableCharacters);
         characters.AddRange(GameManager.currentManager.characterManager.aiCharacters);
-        List<Character> pool = new();
+        List<CharacterViz> pool = new();
         foreach (var item in characters)
         {
             switch (charSetCode)
@@ -34,7 +34,7 @@ public class TRandom : TargetType
             }
         }
 
-        List<Character> results = new();
+        List<CharacterViz> results = new();
         for (int i = 0; i < num; i++)
         {
             if (pool.Count > 0)

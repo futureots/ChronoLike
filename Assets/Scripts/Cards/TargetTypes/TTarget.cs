@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class TTarget : TargetType
 {
-    public override List<Character> GetTarget(bool casterTeam)
+    public override List<CharacterViz> GetTarget(bool casterTeam)
     {
         if(GameManager.currentManager.characterManager.currentTarget == null) return null;
-        List<Character> characters = new();
+        List<CharacterViz> characters = new();
         characters.Add(GameManager.currentManager.characterManager.currentTarget);
         return characters;
     }

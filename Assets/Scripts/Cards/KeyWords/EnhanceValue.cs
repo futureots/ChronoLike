@@ -16,14 +16,14 @@ public class EnhanceValue : ValueKeyWord
     }
     public EnhanceValue(ValueKeyWord inKeyWord,float inCoef, string inStatusName) : this(inKeyWord,0, inCoef, inStatusName) { }
 
-    public override void Activate(Character caster, Card card, Character target)
+    public override void Activate(CharacterViz caster, CardViz card, CharacterViz target)
     {
         keyWord.Activate(caster,card,target);
 
         EnhanceKeyWord();
     }
 
-    public override List<string> GetVariables(Character caster, Character target = null)
+    public override List<string> GetVariables(CharacterViz caster, CharacterViz target = null)
     {
         List<string> variables = new List<string>();
         if (caster != null)
@@ -42,8 +42,9 @@ public class EnhanceValue : ValueKeyWord
             }
             variables.Add(str);
         }
-
+        
         variables.AddRange(keyWord.GetVariables(caster, target));
+        //Debug.Log(variables.Count);
         return variables;
     }
 

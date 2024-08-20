@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
     public DeckManager deckManager;
     public CostManager costManager;
     public CharacterManager characterManager;
-    public AIManager aiManager;
 
     public delegate void AbilityActivate();
     public AbilityActivate PlayerTurnStart, PlayerTurnEnd,EnemyTurnStart,EnemyTurnEnd,GameStart;
@@ -74,9 +73,9 @@ public class GameManager : MonoBehaviour
     {
         // 캐릭터 버프 카운트 => 버프 카운트를 델리게이트에 넣고, 델리게이트 함수 실행
         EnemyTurnStart();
-        characterManager.UpdateCharacter();
 
-        aiManager.EnemyPlay();
+
+        
 
         characterManager.UpdateCharacter();
         EndEnemyTurn();
@@ -85,7 +84,6 @@ public class GameManager : MonoBehaviour
     {
         EnemyTurnEnd();
 
-        aiManager.SetEnemyHands();
         
         characterManager.UpdateCharacter();
         StartPlayerTurn();
@@ -100,19 +98,19 @@ public class GameManager : MonoBehaviour
         CardViz cardViz = dragObj.GetComponent<CardViz>();
         Draggable draggable = dragObj.GetComponent<Draggable>();
         CharacterViz charViz = dropObj.GetComponent<CharacterViz>();
-        Character target = null;
+        CharacterViz target = null;
         if (cardViz == null) return;
-        if(cardViz.card.isNeedTarget)
+        if(cardViz.isNeedTarget)
         {
             if (charViz == null) return;
-            target = charViz.character;
+            target = charViz;
         }
-        Card card = cardViz.card;
-        costManager.FillCardCost(card);
+        
+        costManager.FillCardCost(cardViz);
 
-        bool isPaid = costManager.ConsumeCost(card);
+        bool isPaid = costManager.ConsumeCost(cardViz);
         if (!isPaid) return;
-        //Debug.Log("Cost Paid");
+        Debug.Log("Cost Paid");
 
         //시전자랑 타겟(없으면null) 할당
         
@@ -120,7 +118,7 @@ public class GameManager : MonoBehaviour
 
         draggable.SetTransform();
         
-        int discardNum = card.Execute(this);                                                                      //카드 발동 및 버리기
+        int discardNum = cardViz.Execute(this);                                                                      //카드 발동 및 버리기
 
         deckManager.DiscardCard(draggable.previousSiblingNum,discardNum);
 
@@ -129,7 +127,7 @@ public class GameManager : MonoBehaviour
         CardViz[] handCard = deckManager.deckTransforms[0].GetComponentsInChildren<CardViz>();
         foreach (var item in handCard)
         {
-            item.UpdateAbility();
+            item.UpdateAbilityDescribtion();
         }
         
                                                         //시전자랑 타겟 초기화

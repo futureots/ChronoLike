@@ -6,7 +6,6 @@ using TMPro;
 
 public class CardViz : MonoBehaviour
 {
-    public Card card;
 
     public TextMeshProUGUI title;
     public Image art;
@@ -19,8 +18,8 @@ public class CardViz : MonoBehaviour
     public GameObject cardTemplate;
 
 
-    public CardData cardData { get; private set; }                                                              //카드 원본
-    public Character caster;                                                           //시전자
+    public CardData cardData;                                                              //카드 원본
+    public CharacterViz caster;                                                           //시전자
     
     public bool isNeedTarget;
     public Dictionary<ColorType, int> costs { get; private set; }
@@ -36,7 +35,7 @@ public class CardViz : MonoBehaviour
     {
         raycastTarget = transform.GetChild(1).GetComponent<Image>();
     }
-    public void LoadCard(CardData inCardData, Character inCaster=null)
+    public void LoadCard(CardData inCardData, CharacterViz inCaster=null)
     {
         if (inCardData == null) return;
         cardData = inCardData;
@@ -53,59 +52,41 @@ public class CardViz : MonoBehaviour
         isNeedTarget = cardData.isNeedTarget;
         costs = cardData.costs;
         cardAbility = cardData.cardAbility;
-    }
-    public void LoadCard(Card obj)
-    {
-        if (obj == null) return;
-        card = obj;
-        
-        gameObject.name = card.title;                                                           //카드값 대입
-        title.text = card.title;
-        art.sprite = card.art;
-        if(card.caster != null)
-        {
-            casterName.text = card.caster.name;
-        }
-        card.UpdateAbilityDescribtion();
-        describtion.text = card.vizDescription;
+        UpdateAbilityDescribtion();
 
-        
-        Color bgc = new();                                                                           //카드 배경색상 입히기
-        switch (card.cardColor)
+        Color bgc = new();
+        switch (cardData.cardColor)
         {
             case ColorType.Red:
                 bgc = Color.red;
                 break;
             case ColorType.Blue:
-                bgc = Color.blue;
+                bgc= Color.blue;
                 break;
             case ColorType.Green:
-                bgc  = Color.green;
+                bgc= Color.green;
                 break;
             case ColorType.White:
-                bgc  = Color.white;
+                bgc= Color.white;
                 break;
             case ColorType.Black:
-                bgc = Color.black;
+                bgc= Color.black;
                 break;
             case ColorType.Empty:
+                bgc = Color.white * 0.5f;
+                bgc.a *= 0.5f;
                 break;
             default:
                 break;
         }
-        bgc *= 0.375f;
-        bgc.a = 1;
-        
         cardBackground.color = bgc;
 
 
-        
-        if (card.costs == null) return;                                                              //카드코스트 모형 만들기
-        if (costPrefab == null || resource ==null) return;
+        if (costs == null) return;                                                              //카드코스트 모형 만들기
+        if (costPrefab == null || resource == null) return;
         int i = 0;
-        foreach (var item in card.costs)
+        foreach (var item in costs)
         {
-            
             GameObject temp;
             if (resource.childCount > i)
             {
@@ -119,46 +100,79 @@ public class CardViz : MonoBehaviour
 
 
             temp.name = item.Key.ToString();                                                            //색 입히기
-            Image image = temp.GetComponent<Image>();
+            Image costColor = temp.GetComponent<Image>();
             TextMeshProUGUI cost = temp.GetComponentInChildren<TextMeshProUGUI>();
             cost.text = item.Value.ToString();
 
             switch ((int)item.Key)
             {
                 case 0:
-                    image.color = new Color(1, 0.25f, 0.25f);
+                    costColor.color = new Color(1, 0.25f, 0.25f);
                     cost.color = Color.white;
                     break;
                 case 1:
-                    image.color = new Color(0.25f, 0.25f, 1);
+                    costColor.color = new Color(0.25f, 0.25f, 1);
                     cost.color = Color.white;
                     break;
                 case 2:
-                    image.color = new Color(0.25f, 1, 0.25f);
+                    costColor.color = new Color(0.25f, 1, 0.25f);
                     cost.color = Color.black;
                     break;
                 case 3:
-                    image.color = new Color(1, 1, 1);
+                    costColor.color = new Color(1, 1, 1);
                     cost.color = Color.black;
                     break;
                 case 4:
-                    image.color = new Color(0.25f, 0.25f, 0.25f);
+                    costColor.color = new Color(0.25f, 0.25f, 0.25f);
                     cost.color = Color.white;
                     break;
                 case 5:
-                    image.color = new Color(1, 1, 1, 0.25f);
+                    costColor.color = new Color(1, 1, 1, 0.25f);
                     cost.color = Color.black;
                     break;
             }
 
-            
+
         }
     }
 
-    
-    public void UpdateAbility()
+    public void UpdateAbilityDescribtion()
     {
-        card.UpdateAbilityDescribtion();
-        describtion.text = card.vizDescription;
+        string vizDescription;
+        if (cardAbility.Count <= 0) return;
+        List<string> abilityVariable = new();
+        foreach (var item in cardAbility)
+        {
+            //Debug.Log(item.effect.GetVariables(caster).Count);
+            abilityVariable.AddRange(item.effect.GetVariables(caster));
+        }
+        string[] values = new string[abilityVariable.Count];
+        for (int i = 0; i < values.Length; i++)
+        {
+            values[i] = abilityVariable[i];
+        }
+        //Debug.Log(cardData.abilityDescription + "//" + values.Length);
+        vizDescription = string.Format(cardData.abilityDescription, values);
+        describtion.text = vizDescription;
+    }
+
+
+    public int Execute(GameManager manager)//대상 없음, 대신 캐릭터 매니저가 대상 관리
+    {
+        if (manager == null)
+        {
+            Debug.Log("NO MANAGER");
+            return-1;
+        }
+
+        discardNum = 2;
+
+        if (cardAbility == null) return-1;
+        foreach (var ability in cardAbility)
+        {
+            //ability.Execute(this);
+        }
+        if (discardNum < 0 || discardNum > 3) return-1;
+        return discardNum;
     }
 }

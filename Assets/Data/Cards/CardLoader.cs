@@ -8,7 +8,6 @@ public class CardLoader : MonoBehaviour
     public string cardName;
     CardData cardData;
     public CardViz viz;
-    Character character;
     private void Start()
     {
         
@@ -26,7 +25,6 @@ public class CardLoader : MonoBehaviour
 
 
         cardData = CardData.DeserializeCardData(data);
-        Card temp = new(cardData);
-        viz.LoadCard(temp);
+        viz.LoadCard(cardData);
     }
 }

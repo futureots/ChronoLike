@@ -12,18 +12,18 @@ public class Ability
         effect = inKeyWord;
         type = targetType;
     }
-    public void Execute(Card card)
+    public void Execute(CardViz cardViz)
     {
         if (effect == null) return;
-        Character caster = card.caster;
-        List<Character> targets = new List<Character>();
+        CharacterViz caster = cardViz.caster;
+        List<CharacterViz> targets = new List<CharacterViz>();
         if (type != null)
         {
             targets.AddRange(type.GetTarget(caster.isAlly));
         }
-        foreach (Character target in targets) 
+        foreach (CharacterViz target in targets) 
         {
-            effect.Activate(caster, card, target);
+            effect.Activate(caster, cardViz, target);
 
         }
     }

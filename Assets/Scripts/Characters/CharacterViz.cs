@@ -6,7 +6,6 @@ using TMPro;
 
 public class CharacterViz : MonoBehaviour
 {
-    public Character character;
     public Image art;
     public TextMeshProUGUI characterName;
     public TextMeshProUGUI hp;
@@ -16,33 +15,49 @@ public class CharacterViz : MonoBehaviour
     public GameObject buffPrefab;
 
 
-    private void Start()
-    {
-        LoadCharacter(character);
-    }
-    public void LoadCharacter(Character c)
-    {
-        if (c == null) return;
-        character = c;
-        if (c.data == null) return;
-        art.sprite = c.art;
-        characterName.text = c.name;
+    public CharacterData data;
+    public List<Status> statusList;
+    public ColorType colorType;
+    public Dictionary<string, Ability> characterAbility;
+    public List<Buff> buffs;
+    public bool isAlly;
 
-        Status currentHp = Status.GetStatus(c.statusList,"CurrentHp");
-        Status maxHp = Status.GetStatus(c.statusList,"Hp");
-        if (currentHp == null || maxHp == null) return;
-        hp.text = currentHp.value + " / " + maxHp.value;
-        hpBar.fillAmount = ((float)currentHp.value / maxHp.value);
+
+
+
+    public void LoadCharacter(CharacterData inCharData, bool inIsAlly)
+    {
+        if (inCharData == null) return;
+        data = inCharData;
+        characterName.text = inCharData.name;
+        gameObject.name = inCharData.name;
+        Sprite image = SpriteConverter.LoadSpriteFile(inCharData.artPath);
+        art.sprite = image;
+        isAlly = inIsAlly;
+        characterAbility = data.characterAbility;
+        buffs = new();
+        colorType = inCharData.type;
+
+        statusList = new List<Status>();
+        foreach (var item in inCharData.statusList)
+        {
+            statusList.Add(new Status(item));
+        }
+        Status currentHp = new Status(Status.GetStatus(statusList, "Hp"));
+        currentHp.name = "CurrentHp";
+        statusList.Add(currentHp);
+        UpdateCharacter();
     }
+
     public void UpdateCharacter()
     {
-        Status currentHp = Status.GetStatus(character.statusList, "CurrentHp");
-        Status maxHp = Status.GetStatus(character.statusList, "Hp");
+        Status currentHp = Status.GetStatus(statusList, "CurrentHp");
+        Status maxHp = Status.GetStatus(statusList, "Hp");
         if (currentHp == null || maxHp == null) return;
         currentHp.EditValue(maxHp.value, Status.Operation.Fix, 1);
         hp.text = currentHp.value + " / " + maxHp.value;
         hpBar.fillAmount = ((float)currentHp.value / maxHp.value);
-        for (int i = 0; i < character.buffs.Count; i++)
+        for (int i = 0; i < buffs.Count; i++)
         {
             GameObject buffViz;
             if (buffTransform.childCount > i)
@@ -54,14 +69,51 @@ public class CharacterViz : MonoBehaviour
             BuffViz viz = buffViz.GetComponent<BuffViz>();
             if (viz != null)
             {
-                viz.LoadBuffData(character.buffs[i]);
+                viz.LoadBuffData(buffs[i]);
             }
         }
-        for (int i = character.buffs.Count; i < buffTransform.childCount; i++)
+        for (int i = buffs.Count; i < buffTransform.childCount; i++)
         {
             buffTransform.GetChild(i).gameObject.SetActive(false);
         }
 
     }
+    public void EditCharacter(string name, int value, Status.Operation operation, int code = 0)//code = 1: max, 2 :min, 그 외 : value
+    {
+        foreach (var item in statusList)
+        {
+            if (item.name.Equals(name))
+            {
+                item.EditValue(value, operation, code);
+            }
+        }
+    }
+
     
+    public void Damaged(int damage)
+    {
+        Status currentHp = Status.GetStatus(statusList, "CurrentHp");
+        currentHp.EditValue(-damage, Status.Operation.Add);
+        if (currentHp.StatIsZero())
+        {
+            Dead();
+        }
+    }
+    public void Dead()
+    {
+
+    }
+
+    public void AttachBuff(Buff inBuff)
+    {
+        foreach (var item in buffs)
+        {
+            if (item.MergeBuff(inBuff))
+            {
+                return;
+            }
+
+        }
+        //inBuff.AttachBuff(this);
+    }
 }

@@ -34,7 +34,7 @@ public class StatusBuff : Buff
                 break;
         }
     }
-    public override void AttachBuff(Character inCharacter)
+    public override void AttachBuff(CharacterViz inCharacter)
     {
         if (inCharacter == null) return;
         target = inCharacter;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class TargetType
 {
-    public abstract List<Character> GetTarget(bool isPlayerTeam);
+    public abstract List<CharacterViz> GetTarget(bool isPlayerTeam);
 
 
 }

@@ -19,7 +19,6 @@ public class CharacterLoader : MonoBehaviour
 
 
         characterData = CharacterData.DeserializeCardData(data);
-        Character temp = new(characterData,true);
-        characterViz.LoadCharacter(temp);
+        characterViz.LoadCharacter(characterData,true);
     }
 }

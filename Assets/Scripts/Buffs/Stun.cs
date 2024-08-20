@@ -22,7 +22,7 @@ public class Stun : Buff
         return copy;
     }
 
-    public override void AttachBuff(Character inCharacter)
+    public override void AttachBuff(CharacterViz inCharacter)
     {
         if (inCharacter == null) return;
         target = inCharacter;

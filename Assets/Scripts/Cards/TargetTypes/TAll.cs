@@ -12,12 +12,12 @@ public class TAll : TargetType
         charSetCode = inCharSetCode;
 
     }
-    public override List<Character> GetTarget(bool isPlayerTeam)
+    public override List<CharacterViz> GetTarget(bool isPlayerTeam)
     {
-        List<Character> characters = new();
+        List<CharacterViz> characters = new();
         characters.AddRange(GameManager.currentManager.characterManager.playableCharacters);
         characters.AddRange(GameManager.currentManager.characterManager.aiCharacters);
-        List<Character> result = new();
+        List<CharacterViz> result = new();
         foreach (var item in characters)
         {
             switch (charSetCode)

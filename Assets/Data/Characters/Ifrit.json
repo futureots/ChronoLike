@@ -22,27 +22,6 @@
       },
       {
         "$type": "Status, Assembly-CSharp",
-        "name": "DealtDamage",
-        "max": 999,
-        "min": 0,
-        "value": 0
-      },
-      {
-        "$type": "Status, Assembly-CSharp",
-        "name": "ReducedHp",
-        "max": 999,
-        "min": 0,
-        "value": 0
-      },
-      {
-        "$type": "Status, Assembly-CSharp",
-        "name": "CurrentHp",
-        "max": 999,
-        "min": 0,
-        "value": 0
-      },
-      {
-        "$type": "Status, Assembly-CSharp",
         "name": "Def",
         "max": 999,
         "min": 0,

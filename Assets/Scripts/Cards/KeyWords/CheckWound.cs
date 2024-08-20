@@ -12,7 +12,7 @@ public class CheckWound : KeyWord
         keyWord = inKeyWord;
         isHpFull = inIsHpFull;
     }
-    public override void Activate(Character caster, Card card, Character target)
+    public override void Activate(CharacterViz caster, CardViz card, CharacterViz target)
     {
         bool isFull;
         List<Status> statuses = caster.statusList;
@@ -23,7 +23,7 @@ public class CheckWound : KeyWord
             keyWord.Activate(caster,card,target);
         }
     }
-    public override List<string> GetVariables(Character caster, Character target = null)
+    public override List<string> GetVariables(CharacterViz caster, CharacterViz target = null)
     {
         List<string> variables = new List<string>();
         string str = "";

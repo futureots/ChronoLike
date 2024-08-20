@@ -6,38 +6,30 @@ public class DeckManager : MonoBehaviour
 {
 
     public List<Transform> deckTransforms;                             //0 핸드,1 : 덱, 2 : 버린덱 , 3: 소멸덱 만약 추가할거 있으면 배열 길이 늘리기
-    public List<Card>[] decks;                                               //0 핸드,1 : 덱, 2 : 버린덱 , 3: 소멸덱 만약 추가할거 있으면 배열 길이 늘리기
+    public List<CardViz>[] decks;                                               //0 핸드,1 : 덱, 2 : 버린덱 , 3: 소멸덱 만약 추가할거 있으면 배열 길이 늘리기
     public GameObject cardPrefab;
 
     public int turnDrawCount;
     private void Awake()
     {
-        decks = new List<Card>[4];
+        decks = new List<CardViz>[4];
         for (int i = 0; i < 4; i++)
         {
-            decks[i] = new List<Card>();
+            decks[i] = new List<CardViz>();
         }
 
     }
 
-    public void SetDeck(List<Card> deckData)
+    public void SetDeck(List<CardViz> deckData)
     {
         decks[1].AddRange(deckData);
         for(int i = 0; i < decks[1].Count; i++)
         {
-            GameObject card = Instantiate(cardPrefab, deckTransforms[1]);
-            Clickable click = SetClickable(card);
-            click.cardClicked = new( ()=> { Debug.Log("Added"); });
-            CardViz cardViz = card.GetComponent<CardViz>();
-            cardViz.LoadCard(decks[1][i]);
+            deckData[i].transform.SetParent(deckTransforms[1]);
+            deckData[i].transform.localScale = Vector3.one;
+            Clickable click = SetClickable(deckData[i].gameObject);
+            click.cardClicked = new(() => { Debug.Log("Added"); });
         }
-        
-        //복사가 필요하면 밑에거 사용
-        /*foreach (var item in deckData)                                              
-        {
-            Card card = new(item.data,item.caster);
-            deck.Add(card);
-        }*/
     }
     public void TurnStartDraw()
     {
@@ -87,7 +79,7 @@ public class DeckManager : MonoBehaviour
         }
     }
 
-    public void ExhaustCharCard(Character inDeadChar)                      //캐릭터 죽으면 캐릭터 카드 전부 소멸시키기
+    public void ExhaustCharCard(CharacterViz inDeadChar)                      //캐릭터 죽으면 캐릭터 카드 전부 소멸시키기
     {
 
         for (int i = 0; i < 3; i++)
@@ -112,6 +104,8 @@ public class DeckManager : MonoBehaviour
         
         AddCard(inDeckNum,obj);
     }
+
+
     public GameObject PopCard(int deckNum, int cardNum)
     {
         if (decks[deckNum].Count <= cardNum) return null;
@@ -124,8 +118,7 @@ public class DeckManager : MonoBehaviour
     {
         CardViz cardViz = cardObj.GetComponent<CardViz>();
         if (cardViz == null) return;
-        Card card = cardViz.card;
-        decks[deckNum].Add(card);
+        decks[deckNum].Add(cardViz);
         cardObj.transform.SetParent(deckTransforms[deckNum]);
     }
 

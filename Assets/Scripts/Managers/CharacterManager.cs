@@ -10,11 +10,11 @@ public class CharacterManager : MonoBehaviour
 
 
     public Transform playableTransform;
-    public List<Character> playableCharacters { get; private set; }
+    public List<CharacterViz> playableCharacters { get; private set; }
     public Transform aiTransform;
-    public  List<Character> aiCharacters { get; private set; } 
+    public  List<CharacterViz> aiCharacters { get; private set; } 
 
-    public Character currentTarget;
+    public CharacterViz currentTarget;
     private void Start()
     {
         playableCharacters = new();
@@ -22,36 +22,34 @@ public class CharacterManager : MonoBehaviour
         
     }
     
-    public void SetCharacter(List<Character> inData, bool isAi)//캐릭터의 팀확인해서 아군, 적 세팅 
+    public void SetCharacter(List<CharacterViz> inData, bool isAlly)//캐릭터의 팀확인해서 아군, 적 세팅 
     {
         Transform team;
-        List<Character> charList;
-        if (isAi)                                                                                  //아군
+        List<CharacterViz> charList;
+        if (isAlly)                                                                                  //아군
+        {
+            charList = playableCharacters;
+            team = playableTransform;
+        }
+        else                                                    //적
         {
             charList = aiCharacters;
             team = aiTransform;
-        }
-        else
-        {
-            charList = playableCharacters;                                                    //적
-            team = playableTransform;
+            
         }
 
         foreach (var item in inData)
         {                                                                           
             charList.Add(item);
-            GameObject actor = Instantiate(characterVizPrefab, team);                        //캐릭터 오브젝트 생성
-            actor.name = item.name;
-            CharacterViz viz = actor.GetComponent<CharacterViz>();
-            viz.LoadCharacter(item);
-            if (isAi)
+            item.transform.SetParent(team);
+            item.transform.localScale = Vector3.one;
+            if (!isAlly)
             {
-                viz.art.gameObject.transform.localScale = new Vector3(-1, 1, 1);
+                item.art.gameObject.transform.localScale = new Vector3(-1, 1, 1);
 
             }
-
             //ApplyCharAbility(item);
-
+            item.UpdateCharacter();
         }
 
     }
@@ -63,10 +61,6 @@ public class CharacterManager : MonoBehaviour
         for (int i = viz.Count-1; i >=0; i--)
         {
             viz[i].UpdateCharacter();
-            if (viz[i].character.StatIsZero("CurrentHp"))
-            {
-                DestroyCharacter(viz[i]);
-            }
         }
         if(playableCharacters.Count == 0) 
         {
@@ -79,14 +73,13 @@ public class CharacterManager : MonoBehaviour
     }
     public void DestroyCharacter(CharacterViz inCharacterViz)
     {
-        Character inCharacter = inCharacterViz.character;
         GameObject ch = inCharacterViz.gameObject;
         //DeplyCharAbility(inCharacter);
         for (int i = 0; i < playableCharacters.Count; i++)
         {
-            if (playableCharacters[i].Equals(inCharacter))
+            if (playableCharacters[i].Equals(inCharacterViz))
             {
-                GameManager.currentManager.deckManager.ExhaustCharCard(inCharacter);                   //아군일경우
+                GameManager.currentManager.deckManager.ExhaustCharCard(inCharacterViz);                   //아군일경우
                 playableCharacters.RemoveAt(i);
                 Destroy(ch);
                 return;
@@ -94,9 +87,8 @@ public class CharacterManager : MonoBehaviour
         }
         for (int i = 0; i < aiCharacters.Count; i++)
         {
-            if (aiCharacters[i].Equals(inCharacter))
+            if (aiCharacters[i].Equals(inCharacterViz))                                                                          //적일경우
             {
-                GameManager.currentManager.aiManager.DestroyAI(inCharacter);                               //적일경우
                 aiCharacters.RemoveAt(i);
                 Destroy(ch);
                 return;

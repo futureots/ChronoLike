@@ -120,7 +120,7 @@ public class CostManager : MonoBehaviour
         Dictionary<ColorType, int> remainCosts = new();
         foreach (var item in costList)
         {
-            Debug.Log(item.costType);
+            
             
             Status currentCost = item.costStatus[1];
             if (currentCost.value == 0) continue;
@@ -154,7 +154,7 @@ public class CostManager : MonoBehaviour
 
 
     
-    public void FillCardCost(Card card=null)
+    public void FillCardCost(CardViz card=null)
     {
         if (card == null) return;      
         //코스트확인 후 채우기
@@ -165,13 +165,13 @@ public class CostManager : MonoBehaviour
     }
 
 
-    public bool ConsumeCost(Card card)
+    public bool ConsumeCost(CardViz cardViz)
     {
-        Dictionary<ColorType, int> cost = card.costs;
+        Dictionary<ColorType, int> cost = cardViz.costs;
         bool canConsume = costCylinder.CheckConsumable(cost);
         if (canConsume)
         {
-            costCylinder.ConsumeCylinderCost(card.costs);
+            costCylinder.ConsumeCylinderCost(cardViz.costs);
         }
         return canConsume;
     }

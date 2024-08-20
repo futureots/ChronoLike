@@ -20,7 +20,7 @@ public class CheckCost : KeyWord
     }
 
 
-    public override void Activate(Character caster,Card card, Character target)
+    public override void Activate(CharacterViz caster,CardViz card, CharacterViz target)
     {
         int inCostNum;
         if (isMax)
@@ -37,7 +37,7 @@ public class CheckCost : KeyWord
         }
 
     }
-    public override List<string> GetVariables(Character caster, Character target = null)
+    public override List<string> GetVariables(CharacterViz caster, CharacterViz target = null)
     {
         
         List<string> variable = new List<string>();

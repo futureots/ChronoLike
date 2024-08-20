@@ -12,10 +12,6 @@ public class Status
     public int min;
     public int value;
 
-    public Status()
-    {
-
-    }
 
     public enum Operation
     {
@@ -30,6 +26,7 @@ public class Status
         max = inMax;
         min = inMin;
     }
+
     public Status(Status copy)
     {
         this.name = copy.name;
@@ -37,6 +34,8 @@ public class Status
         this.max = copy.max;
         this.min = copy.min;
     }
+    public Status() : this("", 0, 0, 0) { }
+
     public void EditValue(int edit,Operation operation, int code=0)//code = 0 : value, 1 : max, 2 : min
     {
         int editor;
@@ -91,5 +90,10 @@ public class Status
             }
         }
         return null;
+    }
+    public bool StatIsZero()
+    {
+        if (value == 0) return true;
+        return false;
     }
 }

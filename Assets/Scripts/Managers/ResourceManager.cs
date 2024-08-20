@@ -6,36 +6,34 @@ using System.IO;
 public class ResourceManager : MonoBehaviour
 {
     public static ResourceManager gameResources;
-
+    public GameObject CardPrefab;
+    public GameObject CharPrefab;
 
     [System.Serializable]
-    public struct Resource
+    public struct stringResource
     {
         public string character;
         public List<string> cards;
     }
     [System.Serializable]
-    public struct EnemyResource
+    public struct stringEnemyResource
     {
         public string character;
-        public List<string> cards;
-        public int actionCount;
+        public CharacterAI ai;
     }
-    public List<Resource> allies;
-    public List<EnemyResource> enemies;
+    public List<stringResource> allies;
+    public List<stringEnemyResource> enemies;
 
-    List<Card> playerDeck;
-    List<Character> allyList,enemyList;
-    Dictionary<ColorType, int> costList;
-
-
-    public enum Reward
+    public struct AllyData
     {
-        Card,
-        Gold,
-        Relic
+        public CharacterData characterData;
+        public List<CardData> cardDatas;
     }
-    public List<Reward> rewards;
+    List<AllyData> alliesData;
+
+
+
+
     private void Awake()
     {
         gameResources = this;
@@ -49,7 +47,7 @@ public class ResourceManager : MonoBehaviour
             return;
         }
 
-        costList = CreateCost();                                                                              //코스트 세팅
+        Dictionary<ColorType, int> costList = CreateCost();                                                                              //코스트 세팅
 
         if (gameManager.costManager != null)                                                               //코스트매니저 코스트 세팅
         {
@@ -59,8 +57,9 @@ public class ResourceManager : MonoBehaviour
 
 
 
-         allyList = new();
-        foreach (var item in allies)                                                                    //아군 캐릭터 생성
+        List<CharacterViz> allyList = new();                                                                                 //아군 캐릭터 생성
+        List<CardViz> cards = new();                                                                                      //덱 생성
+        foreach (var item in allies)
         {
             string path = Path.Combine(Application.dataPath + "/Data/Characters", item.character + ".json");
             string data = null;
@@ -69,34 +68,33 @@ public class ResourceManager : MonoBehaviour
                 data = File.ReadAllText(path);
             }
             CharacterData characterData = CharacterData.DeserializeCardData(data);
-            Character ally = new(characterData, true);
-            allyList.Add(ally);
-        }
+            CharacterViz charObj = Instantiate(CharPrefab, this.transform).GetComponent<CharacterViz>();
+            charObj.LoadCharacter(characterData, true);
+            allyList.Add(charObj);
 
-        if (gameManager.characterManager != null)                                                         //아군 캐릭터 세팅
-        {
-            gameManager.characterManager.SetCharacter(allyList, false);
-        }
-
-
-        playerDeck = new();                                                                           //덱 생성
-        for(int i=0;i<allies.Count;i++)
-        {
-            foreach (var card in allies[i].cards)
+            foreach (var card in item.cards)
             {
-                string path = Path.Combine(Application.dataPath + "/Data/Cards", card + ".json");
-                string data = null;
-                if (File.Exists(path))
+                string cardPath = Path.Combine(Application.dataPath + "/Data/Cards", card + ".json");
+                string cardStringData = null;
+                if (File.Exists(cardPath))
                 {
-                    data = File.ReadAllText(path);
+                    cardStringData = File.ReadAllText(cardPath);
                 }
-                CardData cardData = CardData.DeserializeCardData(data);
-                Card temp = new(cardData,allyList[i]);
-                playerDeck.Add(temp);
+                CardData cardData = CardData.DeserializeCardData(cardStringData);
+                CardViz cardObj = Instantiate(CardPrefab, this.transform).GetComponent<CardViz>();
+                cardObj.LoadCard(cardData, charObj);
+                cards.Add(cardObj);
             }
         }
+        gameManager.characterManager.SetCharacter(allyList, true);
+        gameManager.deckManager.SetDeck(cards);
+            
 
-        enemyList = new();
+
+
+
+
+        List<CharacterViz> enemyList = new();
         foreach (var item in enemies)
         {                                                                                                            //적 캐릭터 생성
             string path = Path.Combine(Application.dataPath + "/Data/Characters", item.character + ".json");
@@ -106,46 +104,20 @@ public class ResourceManager : MonoBehaviour
                 data = File.ReadAllText(path);
             }
             CharacterData characterData = CharacterData.DeserializeCardData(data);
-            Character enemy = new(characterData, false);
-            enemyList.Add(enemy);
+            CharacterViz charObj = Instantiate(CharPrefab, this.transform).GetComponent<CharacterViz>();
+            charObj.LoadCharacter(characterData, false);
+            enemyList.Add(charObj);
         }
-
-        if (gameManager.characterManager != null)
-        {
-            gameManager.characterManager.SetCharacter(enemyList, true);
-        }
+        gameManager.characterManager.SetCharacter(enemyList, false);
 
 
-        for(int i=0;i<enemies.Count;i++)                                                                             //적덱 생성
-        {
-            List<Card> enemyDeck = new();
 
-            foreach (var card in enemies[i].cards)
-            {
-                string path = Path.Combine(Application.dataPath + "/Data/Cards", card + ".json");
-                string data = null;
-                if (File.Exists(path))
-                {
-                    data = File.ReadAllText(path);
-                }
-                CardData cardData = CardData.DeserializeCardData(data);
-                Card temp = new(cardData,enemyList[i]);
-
-                enemyDeck.Add(temp);
-
-            }
-            if(gameManager.aiManager != null) gameManager.aiManager.GenerateAI(enemyDeck,enemies[i].actionCount);
-        }
-
-        if (gameManager.aiManager != null)
+        /*if (gameManager.aiManager != null)
         {
             gameManager.aiManager.SetAI(gameManager.characterManager.aiTransform);
-        }
+        }*/
 
-        if (gameManager.deckManager != null)                                                                 //덱매니저 덱 세팅
-        {
-            gameManager.deckManager.SetDeck(playerDeck);
-        }
+
 
 
 
@@ -169,9 +141,5 @@ public class ResourceManager : MonoBehaviour
             costList.Add(colorType, cost);
         }
         return costList;
-    }
-    public void SetReward(Reward reward)
-    {
-
     }
 }
