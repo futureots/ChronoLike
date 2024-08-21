@@ -29,8 +29,8 @@ public class DealAndHeal : ValueKeyWord
             damage += (int)(coef * status.value);
         }
         Debug.Log("damage = "+ damage);
-        if (isDeal) target.EditCharacter("CurrentHp", -damage, Status.Operation.Add);
-        else target.EditCharacter("CurrentHp", damage, Status.Operation.Add);
+        if (isDeal) target.Damaged(damage);
+        else target.Damaged(-damage);
     }
     public override List<string> GetVariables(CharacterViz caster, CharacterViz target = null)
     {

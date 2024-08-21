@@ -16,11 +16,10 @@ public class Poison : Dot
         countNum = inCountNum;
         target = null;
     }
-    public override void AttachBuff(CharacterViz inCharacter)
+    public override void Init(CharacterViz inCharacter)
     {
         if (inCharacter == null) return;
         target = inCharacter;
-        target.buffs.Add(this);
         if (target.isAlly)
         {
             GameManager.currentManager.PlayerTurnStart += new GameManager.AbilityActivate(BuffCountDown);
@@ -45,9 +44,9 @@ public class Poison : Dot
 
 
 
-        if (!target.buffs.Contains(this)) return;
+        if (!target.buffList.Contains(this)) return;
 
-        target.buffs.Remove(this);
+        target.buffList.Remove(this);
         //Debug.Log("Buff Detached/ " + target.name);
         target = null;
     }

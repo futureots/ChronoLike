@@ -122,19 +122,18 @@ public class GameManager : MonoBehaviour
 
         deckManager.DiscardCard(draggable.previousSiblingNum,discardNum);
 
-        
-        characterManager.UpdateCharacter();                                                      //캐릭터 업데이트
-        CardViz[] handCard = deckManager.deckTransforms[0].GetComponentsInChildren<CardViz>();
-        foreach (var item in handCard)
-        {
-            item.UpdateAbilityDescribtion();
-        }
+
+        UpdateGame();
         
                                                         //시전자랑 타겟 초기화
         characterManager.currentTarget = null;
         
     }
-
+    public void UpdateGame()
+    {
+        characterManager.UpdateCharacter();
+        deckManager.UpdateDeck();
+    }
 
 
 

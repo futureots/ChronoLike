@@ -12,14 +12,15 @@ public class CharacterViz : MonoBehaviour
     public Image hpBar;
 
     public Transform buffTransform;
+    public List<Buff> buffList;
     public GameObject buffPrefab;
-
+    
 
     public CharacterData data;
     public List<Status> statusList;
     public ColorType colorType;
     public Dictionary<string, Ability> characterAbility;
-    public List<Buff> buffs;
+    
     public bool isAlly;
 
 
@@ -35,7 +36,7 @@ public class CharacterViz : MonoBehaviour
         art.sprite = image;
         isAlly = inIsAlly;
         characterAbility = data.characterAbility;
-        buffs = new();
+        buffList = new();
         colorType = inCharData.type;
 
         statusList = new List<Status>();
@@ -57,26 +58,13 @@ public class CharacterViz : MonoBehaviour
         currentHp.EditValue(maxHp.value, Status.Operation.Fix, 1);
         hp.text = currentHp.value + " / " + maxHp.value;
         hpBar.fillAmount = ((float)currentHp.value / maxHp.value);
-        for (int i = 0; i < buffs.Count; i++)
-        {
-            GameObject buffViz;
-            if (buffTransform.childCount > i)
-            {
-                buffViz = buffTransform.GetChild(i).gameObject;
-                buffViz.SetActive(true);
-            }
-            else buffViz = Instantiate(buffPrefab, buffTransform);
-            BuffViz viz = buffViz.GetComponent<BuffViz>();
-            if (viz != null)
-            {
-                viz.LoadBuffData(buffs[i]);
-            }
-        }
-        for (int i = buffs.Count; i < buffTransform.childCount; i++)
-        {
-            buffTransform.GetChild(i).gameObject.SetActive(false);
-        }
 
+        BuffViz viz = null;
+        for(int i = 0; i < buffTransform.childCount; i++)
+        {
+            viz = buffTransform.GetChild(i).GetComponent<BuffViz>();
+            if (viz != null) viz.UpdateViz();
+        }
     }
     public void EditCharacter(string name, int value, Status.Operation operation, int code = 0)//code = 1: max, 2 :min, 그 외 : value
     {
@@ -106,14 +94,23 @@ public class CharacterViz : MonoBehaviour
 
     public void AttachBuff(Buff inBuff)
     {
-        foreach (var item in buffs)
+        BuffViz buffViz;
+        for(int i=0;i<buffList.Count;i++)
         {
-            if (item.MergeBuff(inBuff))
+            if (buffList[i].MergeBuff(inBuff))
             {
+                buffViz = buffTransform.GetChild(i).GetComponent<BuffViz>();
+                buffViz.UpdateViz();
                 return;
             }
 
         }
-        //inBuff.AttachBuff(this);
+        buffViz = Instantiate(buffPrefab, buffTransform).GetComponent<BuffViz>();
+        Debug.Log(buffViz.name);
+        buffViz.LoadBuffData(inBuff);
+        buffList.Add(inBuff);
+        inBuff.Init(this);
+
     }
+
 }

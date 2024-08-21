@@ -105,8 +105,18 @@ public class DeckManager : MonoBehaviour
         AddCard(inDeckNum,obj);
     }
 
+    public void UpdateDeck()
+    {
+        for (int i = 0; i < decks.Length; i++)
+        {
+            foreach (var item in decks[i])
+            {
+                item.UpdateAbilityDescribtion();
+            }
+        }
+    }
 
-    public GameObject PopCard(int deckNum, int cardNum)
+    GameObject PopCard(int deckNum, int cardNum)
     {
         if (decks[deckNum].Count <= cardNum) return null;
         //Debug.Log(deckTransforms[deckNum].childCount + "and "+ decks[deckNum].Count+ "is" + cardNum);
@@ -122,7 +132,7 @@ public class DeckManager : MonoBehaviour
         cardObj.transform.SetParent(deckTransforms[deckNum]);
     }
 
-    public Draggable SetDraggable(GameObject obj)
+    Draggable SetDraggable(GameObject obj)
     {
         if(obj.GetComponent<Clickable>() != null)
         {
@@ -138,7 +148,7 @@ public class DeckManager : MonoBehaviour
         draggable.RaycastTarget = obj.transform.GetChild(1).GetComponent<UnityEngine.UI.Image>();
         return draggable;
     }
-    public Clickable SetClickable(GameObject obj)
+    Clickable SetClickable(GameObject obj)
     {
         if (obj.GetComponent<Draggable>() != null)
         {

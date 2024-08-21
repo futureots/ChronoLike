@@ -25,11 +25,11 @@ public class CheckBuff : KeyWord
         {
             int count = 0;
 
-            for (int i = 0; i < target.buffs.Count; i++)
+            for (int i = 0; i < target.buffList.Count; i++)
             {
-                if (target.buffs[i].GetType().IsSubclassOf(type))
+                if (target.buffList[i].GetType().IsSubclassOf(type))
                 {
-                    count+= target.buffs[i].countNum;
+                    count+= target.buffList[i].countNum;
                 }
             }
             for (int i = 0; i < count; i++)

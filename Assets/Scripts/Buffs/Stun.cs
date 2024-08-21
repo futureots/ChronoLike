@@ -22,11 +22,10 @@ public class Stun : Buff
         return copy;
     }
 
-    public override void AttachBuff(CharacterViz inCharacter)
+    public override void Init(CharacterViz inCharacter)
     {
         if (inCharacter == null) return;
         target = inCharacter;
-        target.buffs.Add(this);
     }
     public void BuffCountDown()
     {
@@ -35,9 +34,9 @@ public class Stun : Buff
     }
     public override void DetachBuff()
     {
-        if (target.buffs.Contains(this))
+        if (target.buffList.Contains(this))
         {
-            target.buffs.Remove(this);
+            target.buffList.Remove(this);
             target = null;
         }
     }

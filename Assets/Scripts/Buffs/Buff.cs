@@ -9,7 +9,7 @@ public abstract class Buff
     public int countNum;
 
     public abstract Buff Clone();
-    public virtual void AttachBuff(CharacterViz inCharacter)
+    public virtual void Init(CharacterViz inCharacter)
     {
 
     }

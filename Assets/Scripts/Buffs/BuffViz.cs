@@ -19,4 +19,13 @@ public class BuffViz : MonoBehaviour
         Sprite icon = SpriteConverter.LoadSpriteFile(buff.iconPath);
         buffIcon.sprite = icon;
     }
+
+    public void UpdateViz()
+    {
+        buffCount.text = buff.countNum.ToString();
+        if (buff.countNum == 0)
+        {
+
+        }
+    }
 }

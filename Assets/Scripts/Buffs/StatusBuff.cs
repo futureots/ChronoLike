@@ -34,20 +34,19 @@ public class StatusBuff : Buff
                 break;
         }
     }
-    public override void AttachBuff(CharacterViz inCharacter)
+    public override void Init(CharacterViz inCharacter)
     {
         if (inCharacter == null) return;
         target = inCharacter;
-        target.buffs.Add(this);
         target.EditCharacter(statusName, countNum, Status.Operation.Add);
         Debug.Log("Buff Attached/ " + target.name + " // "+statusName + " = " + Status.GetStatus(target.statusList, statusName).value);
     }
 
     public override void DetachBuff()
     {
-        if (!target.buffs.Contains(this)) return;
+        if (!target.buffList.Contains(this)) return;
 
-        target.buffs.Remove(this);
+        target.buffList.Remove(this);
         target.EditCharacter(statusName, -countNum, Status.Operation.Add);
         Debug.Log("Buff Detached/ " + target.name + " // " + statusName + " = " + Status.GetStatus(target.statusList, statusName).value);
         target = null;

@@ -17,7 +17,11 @@ public class Ability
         if (effect == null) return;
         CharacterViz caster = cardViz.caster;
         List<CharacterViz> targets = new List<CharacterViz>();
-        if (type != null)
+        if (type == null)
+        {
+            targets.Add(caster);
+        }
+        else
         {
             targets.AddRange(type.GetTarget(caster.isAlly));
         }
