@@ -17,7 +17,7 @@ public class CheckWound : KeyWord
         bool isFull;
         List<Status> statuses = caster.statusList;
         isFull = (Status.GetStatus(statuses, "Hp").value == Status.GetStatus(statuses, "CurrentHp").value);
-        Debug.Log("Hp = " + Status.GetStatus(statuses, "Hp").value + "// CurrentHp = " + Status.GetStatus(statuses, "CurrentHp").value + " isFull = " + isFull);
+        //Debug.Log("Hp = " + Status.GetStatus(statuses, "Hp").value + "// CurrentHp = " + Status.GetStatus(statuses, "CurrentHp").value + " isFull = " + isFull);
         if(isFull == isHpFull)
         {
             keyWord.Activate(caster,card,target);

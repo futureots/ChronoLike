@@ -11,6 +11,10 @@ public class BuffViz : MonoBehaviour
     public TextMeshProUGUI buffCount;
     public Image buffIcon;
 
+    public CharacterViz target;
+    public int countNum;
+
+
     public void LoadBuffData(Buff inBuff)
     {
         if (inBuff == null) return;
@@ -20,12 +24,10 @@ public class BuffViz : MonoBehaviour
         buffIcon.sprite = icon;
     }
 
-    public void UpdateViz()
+    public int UpdateViz()
     {
+        
         buffCount.text = buff.countNum.ToString();
-        if (buff.countNum == 0)
-        {
-
-        }
+        return buff.countNum;
     }
 }

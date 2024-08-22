@@ -2,7 +2,7 @@
   "$type": "CardData, Assembly-CSharp",
   "title": "Growth",
   "imagePath": "Assets/Data/Sprites\\Amumu.png",
-  "abilityDescription": "녹색 코스트 최대치를 1늘린다.",
+  "abilityDescription": "녹색 코스트 최대치를 {0}늘린다.",
   "isNeedTarget": false,
   "cardColor": 2,
   "costs": {
@@ -17,7 +17,8 @@
         "effect": {
           "$type": "EditCost, Assembly-CSharp",
           "color": 2,
-          "isMaxCost": true
+          "isMaxCost": true,
+          "value": 1
         }
       }
     ]

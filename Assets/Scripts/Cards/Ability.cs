@@ -12,7 +12,7 @@ public class Ability
         effect = inKeyWord;
         type = targetType;
     }
-    public void Execute(CardViz cardViz)
+    public void Execute(CardViz cardViz, CharacterViz target)                 //target = 없으면 null 입력
     {
         if (effect == null) return;
         CharacterViz caster = cardViz.caster;
@@ -21,13 +21,17 @@ public class Ability
         {
             targets.Add(caster);
         }
+        else if(type is TTarget)
+        {
+            targets.Add(target);
+        }
         else
         {
             targets.AddRange(type.GetTarget(caster.isAlly));
         }
-        foreach (CharacterViz target in targets) 
+        foreach (CharacterViz charViz in targets)
         {
-            effect.Activate(caster, cardViz, target);
+            effect.Activate(caster, cardViz, charViz);
 
         }
     }

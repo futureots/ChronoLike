@@ -4,12 +4,7 @@ using UnityEngine;
 
 public class Bleed : Dot
 {
-    public Bleed()
-    {
-        iconPath = "Assets/Data/Sprites\\Bleed.png";
-        countNum = 0;
-        target = null;
-    }
+    public Bleed() : this(0) { }
     public Bleed(int inCountNum)
     {
         iconPath = "Assets/Data/Sprites\\Bleed.png";
@@ -21,41 +16,23 @@ public class Bleed : Dot
     {
         if (inCharacter == null) return;
         target = inCharacter;
-        if (target.isAlly)
-        {
-            GameManager.currentManager.PlayerTurnStart += new GameManager.AbilityActivate(BuffCountDown);
-        }
-        else
-        {
-            GameManager.currentManager.EnemyTurnStart += new GameManager.AbilityActivate(BuffCountDown);
-        }
+        
+        target.TurnStart += new CharacterViz.AbilityActivate(BuffCountDown);
+        Debug.Log(target + "added");
     }
 
     public override void DetachBuff()
     {
-        if (target.isAlly)
-        {
-            GameManager.currentManager.PlayerTurnStart -= new GameManager.AbilityActivate(BuffCountDown);
-        }
-        else
-        {
-            GameManager.currentManager.EnemyTurnStart -= new GameManager.AbilityActivate(BuffCountDown);
-        }
-
-
-
-        if (!target.buffList.Contains(this)) return;
-
-        target.buffList.Remove(this);
+        Debug.Log("DetachBuff");
+        target.TurnStart -= new CharacterViz.AbilityActivate(BuffCountDown);
         //Debug.Log("Buff Detached/ " + target.name);
         target = null;
     }
     public void BuffCountDown()
     {
-        target.EditCharacter("CurrentHp", -2, Status.Operation.Add);
+        target.Damaged(2);
         countNum = Mathf.Max(countNum - 1, 0);
-        //Debug.Log("Dot Count = " + countNum);
-        if (countNum == 0) DetachBuff();
+        Debug.Log("Dot Count = " + countNum);
     }
 
     public override bool MergeBuff(Buff inBuff)
@@ -63,8 +40,6 @@ public class Bleed : Dot
         Bleed bleed = inBuff as Bleed;
         if (bleed == null) return false;
         countNum += bleed.countNum;
-        //Debug.Log("BuffCount = " + countNum);
-        if (countNum == 0) DetachBuff();
         return true;
     }
 

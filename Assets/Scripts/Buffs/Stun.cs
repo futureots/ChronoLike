@@ -26,20 +26,25 @@ public class Stun : Buff
     {
         if (inCharacter == null) return;
         target = inCharacter;
+        target.isActable = false;
+        target.CharAction += new CharacterViz.AbilityActivate(BuffCountDown);
     }
     public void BuffCountDown()
     {
         countNum = Mathf.Max(countNum-1, 0);
-        if (countNum == 0) DetachBuff();
+        Debug.Log("StunCount =" + countNum);
     }
     public override void DetachBuff()
     {
-        if (target.buffList.Contains(this))
-        {
-            target.buffList.Remove(this);
-            target = null;
-        }
+        target.isActable = true;
+        target.CharAction -= new CharacterViz.AbilityActivate(BuffCountDown);
+        target = null;
     }
-    
-
+    public override bool MergeBuff(Buff inBuff)
+    {
+        Stun inDot = inBuff as Stun;
+        if (inDot == null) return false;
+        countNum += inDot.countNum;
+        return true;
+    }
 }

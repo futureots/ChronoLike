@@ -14,7 +14,6 @@ public class CharacterManager : MonoBehaviour
     public Transform aiTransform;
     public  List<CharacterViz> aiCharacters { get; private set; } 
 
-    public CharacterViz currentTarget;
     private void Start()
     {
         playableCharacters = new();

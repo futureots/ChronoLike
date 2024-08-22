@@ -157,20 +157,16 @@ public class CardViz : MonoBehaviour
     }
 
 
-    public int Execute(GameManager manager)//대상 없음, 대신 캐릭터 매니저가 대상 관리
+    public int Execute(CharacterViz target)//대상 없음, 대신 캐릭터 매니저가 대상 관리
     {
-        if (manager == null)
-        {
-            Debug.Log("NO MANAGER");
-            return-1;
-        }
+
 
         discardNum = 2;
 
         if (cardAbility == null) return-1;
         foreach (var ability in cardAbility)
         {
-            ability.Execute(this);
+            ability.Execute(this,target);
         }
         if (discardNum < 0 || discardNum > 3) return-1;
         return discardNum;

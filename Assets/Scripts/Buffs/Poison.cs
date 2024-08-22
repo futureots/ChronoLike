@@ -20,42 +20,22 @@ public class Poison : Dot
     {
         if (inCharacter == null) return;
         target = inCharacter;
-        if (target.isAlly)
-        {
-            GameManager.currentManager.PlayerTurnStart += new GameManager.AbilityActivate(BuffCountDown);
-        }
-        else
-        {
-            GameManager.currentManager.EnemyTurnStart+= new GameManager.AbilityActivate(BuffCountDown);
-        }
+
+        target.TurnStart += new CharacterViz.AbilityActivate(BuffCountDown);
+        Debug.Log(target + "added");
         //Debug.Log("Buff Attached/ " + target.name + " // Dot count = " + countNum);
     }
 
     public override void DetachBuff()
     {
-        if (target.isAlly)
-        {
-            GameManager.currentManager.PlayerTurnStart -= new GameManager.AbilityActivate(BuffCountDown);
-        }
-        else
-        {
-            GameManager.currentManager.EnemyTurnStart -= new GameManager.AbilityActivate(BuffCountDown);
-        }
-
-
-
-        if (!target.buffList.Contains(this)) return;
-
-        target.buffList.Remove(this);
-        //Debug.Log("Buff Detached/ " + target.name);
+        Debug.Log("DetachBuff");
+        target.TurnStart -= new CharacterViz.AbilityActivate(BuffCountDown);
         target = null;
     }
     public void BuffCountDown()
     {
-        target.EditCharacter("CurrentHp", -countNum, Status.Operation.Add);
+        target.Damaged(countNum);
         countNum = Mathf.Max(countNum - 1, 0);
-        //Debug.Log("Dot Count = " + countNum);
-        if (countNum == 0) DetachBuff();
     }
 
     public override bool MergeBuff(Buff inBuff)
@@ -64,7 +44,6 @@ public class Poison : Dot
         if(inDot == null) return false;
         countNum += inDot.countNum;
         //Debug.Log("BuffCount = " + countNum);
-        if (countNum == 0) DetachBuff();
         return true;
     }
 

@@ -9,6 +9,7 @@ public class CharacterViz : MonoBehaviour
     public Image art;
     public TextMeshProUGUI characterName;
     public TextMeshProUGUI hp;
+    public bool isActable;
     public Image hpBar;
 
     public Transform buffTransform;
@@ -23,9 +24,17 @@ public class CharacterViz : MonoBehaviour
     
     public bool isAlly;
 
+    public delegate void AbilityActivate();
+    public AbilityActivate TurnStart, TurnEnd, CharAction, CharDamaged, CharDead;
 
-
-
+    private void Awake()
+    {
+        TurnStart = new AbilityActivate(() => { });
+        TurnEnd = new AbilityActivate(() => { });
+        CharAction = new AbilityActivate(() => { });
+        CharDamaged = new AbilityActivate(() => { });
+        CharDead = new AbilityActivate(() => { });
+    }
     public void LoadCharacter(CharacterData inCharData, bool inIsAlly)
     {
         if (inCharData == null) return;
@@ -38,7 +47,7 @@ public class CharacterViz : MonoBehaviour
         characterAbility = data.characterAbility;
         buffList = new();
         colorType = inCharData.type;
-
+        isActable = true;
         statusList = new List<Status>();
         foreach (var item in inCharData.statusList)
         {
@@ -63,7 +72,21 @@ public class CharacterViz : MonoBehaviour
         for(int i = 0; i < buffTransform.childCount; i++)
         {
             viz = buffTransform.GetChild(i).GetComponent<BuffViz>();
-            if (viz != null) viz.UpdateViz();
+            if (viz != null)
+            {
+                
+                int num = viz.UpdateViz();
+                //Debug.Log(viz.buff.target + "// " + num);
+                if (num == 0)
+                {
+                    //캐릭터 버프 제거
+                    viz.buff.DetachBuff();
+                    buffList.Remove(viz.buff);
+                    //버프 오브젝트 제거
+                    viz.transform.SetParent(null);                                                           //나중에 코루틴 쓰게되면 제거 요망
+                    Destroy(viz.gameObject);
+                }
+            }
         }
     }
     public void EditCharacter(string name, int value, Status.Operation operation, int code = 0)//code = 1: max, 2 :min, 그 외 : value
@@ -82,6 +105,7 @@ public class CharacterViz : MonoBehaviour
     {
         Status currentHp = Status.GetStatus(statusList, "CurrentHp");
         currentHp.EditValue(-damage, Status.Operation.Add);
+        CharDamaged();
         if (currentHp.StatIsZero())
         {
             Dead();
@@ -89,15 +113,16 @@ public class CharacterViz : MonoBehaviour
     }
     public void Dead()
     {
-
+        CharDead.Invoke();
     }
 
     public void AttachBuff(Buff inBuff)
     {
+        Buff buff = inBuff.Clone();
         BuffViz buffViz;
         for(int i=0;i<buffList.Count;i++)
         {
-            if (buffList[i].MergeBuff(inBuff))
+            if (buffList[i].MergeBuff(buff))
             {
                 buffViz = buffTransform.GetChild(i).GetComponent<BuffViz>();
                 buffViz.UpdateViz();
@@ -106,10 +131,10 @@ public class CharacterViz : MonoBehaviour
 
         }
         buffViz = Instantiate(buffPrefab, buffTransform).GetComponent<BuffViz>();
-        Debug.Log(buffViz.name);
-        buffViz.LoadBuffData(inBuff);
-        buffList.Add(inBuff);
-        inBuff.Init(this);
+        //Debug.Log(buffViz.name);
+        buffViz.LoadBuffData(buff);
+        buffList.Add(buff);
+        buff.Init(this);
 
     }
 

@@ -70,7 +70,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 1
+  m_FillAmount: 0.82
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -184,9 +184,13 @@ MonoBehaviour:
   art: {fileID: 1143115419802061254}
   characterName: {fileID: 2842951483569828743}
   hp: {fileID: 1416966156827480787}
+  isActable: 0
   hpBar: {fileID: 2913286823615642958}
   buffTransform: {fileID: 2519965236439990775}
   buffPrefab: {fileID: 3624980043520020550, guid: e315f63d07e924147ab7972f9fa151b0, type: 3}
+  statusList: []
+  colorType: 0
+  isAlly: 0
 --- !u!1 &1260142076356651160
 GameObject:
   m_ObjectHideFlags: 0

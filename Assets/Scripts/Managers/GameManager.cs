@@ -16,16 +16,12 @@ public class GameManager : MonoBehaviour
     public CharacterManager characterManager;
 
     public delegate void AbilityActivate();
-    public AbilityActivate PlayerTurnStart, PlayerTurnEnd,EnemyTurnStart,EnemyTurnEnd,GameStart;
+    public AbilityActivate GameStart;
     
     
     private void Awake()
     {
         currentManager = this;
-        PlayerTurnStart = new(() => { });
-        PlayerTurnEnd = new(() => { });
-        EnemyTurnStart = new(() => { });
-        EnemyTurnEnd = new(() => { });
         GameStart = new(() => { });
     }
     private void Start()
@@ -39,9 +35,11 @@ public class GameManager : MonoBehaviour
     public void StartPlayerTurn()//턴시작시 코스트 초기화, 카드드로우
     {
         // 캐릭터 버프 카운트 => 버프 카운트를 델리게이트에 넣고, 델리게이트 함수 실행
-        PlayerTurnStart();
-        characterManager.UpdateCharacter();
-
+        foreach (var item in characterManager.playableCharacters)
+        {
+            item.TurnStart();
+        }
+        
 
         //코스트 초기화
         costManager.FillCost();
@@ -58,10 +56,12 @@ public class GameManager : MonoBehaviour
         costManager.costCylinder.ClearCylinder();
 
         //특정 키워드 사용
-        PlayerTurnEnd();
+        foreach (var item in characterManager.playableCharacters)
+        {
+            item.TurnEnd();
+        }
         //핸드 제거
         deckManager.ClearHand();
-
 
         characterManager.UpdateCharacter();
 
@@ -72,19 +72,21 @@ public class GameManager : MonoBehaviour
     public void StartEnemyTurn()
     {
         // 캐릭터 버프 카운트 => 버프 카운트를 델리게이트에 넣고, 델리게이트 함수 실행
-        EnemyTurnStart();
-
-
-        
+        foreach (var item in characterManager.aiCharacters)
+        {
+            item.TurnStart();
+        }
 
         characterManager.UpdateCharacter();
+
         EndEnemyTurn();
     }
     public void EndEnemyTurn()
     {
-        EnemyTurnEnd();
-
-        
+        foreach (var item in characterManager.aiCharacters)
+        {
+            item.TurnEnd();
+        }
         characterManager.UpdateCharacter();
         StartPlayerTurn();
     }
@@ -98,12 +100,10 @@ public class GameManager : MonoBehaviour
         CardViz cardViz = dragObj.GetComponent<CardViz>();
         Draggable draggable = dragObj.GetComponent<Draggable>();
         CharacterViz charViz = dropObj.GetComponent<CharacterViz>();
-        CharacterViz target = null;
         if (cardViz == null) return;
         if(cardViz.isNeedTarget)
         {
             if (charViz == null) return;
-            target = charViz;
         }
         
         costManager.FillCardCost(cardViz);
@@ -113,20 +113,21 @@ public class GameManager : MonoBehaviour
         Debug.Log("Cost Paid");
 
         //시전자랑 타겟(없으면null) 할당
-        
-        characterManager.currentTarget = target;
-
+        bool actable = true;
+        if (!cardViz.caster.isActable) actable = false;
         draggable.SetTransform();
-        
-        int discardNum = cardViz.Execute(this);                                                                      //카드 발동 및 버리기
-
+        cardViz.caster.CharAction.Invoke();
+        int discardNum=2;
+        if (actable)
+        {
+            discardNum = cardViz.Execute(charViz);                                                                      //카드 발동 및 버리기
+        }
         deckManager.DiscardCard(draggable.previousSiblingNum,discardNum);
 
 
         UpdateGame();
         
                                                         //시전자랑 타겟 초기화
-        characterManager.currentTarget = null;
         
     }
     public void UpdateGame()

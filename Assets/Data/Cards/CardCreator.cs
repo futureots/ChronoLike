@@ -205,4 +205,24 @@ cardData.title = "Berserk Soul";
         Ability ability1 = new(checkWound, target);
         cardData.cardAbility.Add(ability);
         cardData.cardAbility.Add(ability1);
+
+
+
+cardData.title = "Stun";
+        cardData.imagePath = SpriteConverter.GetSpritePath(image);
+        cardData.abilityDescription = "대상에게 기절을 부여한다.";
+        cardData.isNeedTarget = true;
+
+        cardData.cardColor = ColorType.Blue;
+
+        cardData.costs = new();
+        cardData.costs.Add(ColorType.Blue, 2);
+
+        cardData.cardAbility = new();
+        TTarget target = new TTarget();
+
+        Stun stun = new Stun();
+        AddBuff addBuff = new AddBuff(stun, 1);
+        Ability ability = new(addBuff,target);
+        cardData.cardAbility.Add(ability);
  */
