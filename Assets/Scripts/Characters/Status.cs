@@ -19,7 +19,7 @@ public class Status
         Multiple=1,
         Fix=2
     }
-    public Status(string inName, int inValue,int inMax, int inMin)
+    public Status(string inName, int inValue,int inMax=999, int inMin=0)
     {
         name = inName;
         value = inValue;

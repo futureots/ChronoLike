@@ -11,10 +11,10 @@
     "Red": 1
   },
   "cardAbility": {
-    "$type": "System.Collections.Generic.List`1[[Ability, Assembly-CSharp]], mscorlib",
+    "$type": "System.Collections.Generic.List`1[[CardAbility, Assembly-CSharp]], mscorlib",
     "$values": [
       {
-        "$type": "Ability, Assembly-CSharp",
+        "$type": "CardAbility, Assembly-CSharp",
         "effect": {
           "$type": "DealAndHeal, Assembly-CSharp",
           "isDeal": true,

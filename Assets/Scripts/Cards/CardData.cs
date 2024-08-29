@@ -16,7 +16,7 @@ public class CardData
     public ColorType cardColor;
     public Dictionary<ColorType, int> costs;
 
-    public List<Ability> cardAbility;
+    public List<CardAbility> cardAbility;
 
 
     static JsonSerializerSettings serializerSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };

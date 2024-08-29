@@ -20,7 +20,7 @@ public class CheckCost : KeyWord
     }
 
 
-    public override void Activate(CharacterViz caster,CardViz card, CharacterViz target)
+    public override void Activate(CharacterViz caster, CharacterViz target)
     {
         int inCostNum;
         if (isMax)
@@ -33,7 +33,7 @@ public class CheckCost : KeyWord
         }
         if (inCostNum >= costNum)
         {
-            keyWord.Activate(caster,card,target);
+            keyWord.Activate(caster,target);
         }
 
     }

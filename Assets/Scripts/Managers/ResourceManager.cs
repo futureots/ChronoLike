@@ -8,6 +8,8 @@ public class ResourceManager : MonoBehaviour
     public static ResourceManager gameResources;
     public GameObject CardPrefab;
     public GameObject CharPrefab;
+    public GameObject AIPrefab;
+
 
     [System.Serializable]
     public struct stringResource
@@ -107,6 +109,14 @@ public class ResourceManager : MonoBehaviour
             CharacterViz charObj = Instantiate(CharPrefab, this.transform).GetComponent<CharacterViz>();
             charObj.LoadCharacter(characterData, false);
             enemyList.Add(charObj);
+
+            GameObject aiObj = Instantiate(AIPrefab, transform);
+            CharacterAI ai = aiObj.AddComponent<SlimeAI>();
+            aiObj.name = ai.GetType().Name;
+            ai.SetAI(charObj);
+            
+
+            gameManager.characterManager.aiList.Add(ai);
         }
         gameManager.characterManager.SetCharacter(enemyList, false);
 

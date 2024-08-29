@@ -30,23 +30,26 @@
     ]
   },
   "characterAbility": {
-    "$type": "System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[Ability, Assembly-CSharp]], mscorlib",
-    "TurnStart": {
-      "$type": "Ability, Assembly-CSharp",
-      "effect": {
-        "$type": "DealAndHeal, Assembly-CSharp",
-        "isDeal": true,
-        "basicValue": 1,
-        "coef": 0.0,
-        "statusName": null,
-        "targets": null
-      },
-      "type": {
-        "$type": "TRandom, Assembly-CSharp",
-        "num": 1,
-        "charSetCode": 1
+    "$type": "System.Collections.Generic.List`1[[CharacterAbility, Assembly-CSharp]], mscorlib",
+    "$values": [
+      {
+        "$type": "CharacterAbility, Assembly-CSharp",
+        "keyWord": {
+          "$type": "DealAndHeal, Assembly-CSharp",
+          "isDeal": true,
+          "basicValue": 1,
+          "coef": 0.0,
+          "statusName": null
+        },
+        "actionType": 1,
+        "targetType": {
+          "$type": "TRandom, Assembly-CSharp",
+          "num": 1,
+          "charSetCode": 1
+        },
+        "owner": null
       }
-    }
+    ]
   },
   "artPath": "Assets/Data/Sprites\\warrior.png"
 }

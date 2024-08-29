@@ -15,8 +15,8 @@ public class TAll : TargetType
     public override List<CharacterViz> GetTarget(bool isPlayerTeam)
     {
         List<CharacterViz> characters = new();
-        characters.AddRange(GameManager.currentManager.characterManager.playableCharacters);
-        characters.AddRange(GameManager.currentManager.characterManager.aiCharacters);
+        characters.AddRange(GameManager.currentManager.characterManager.playableCharacterList);
+        characters.AddRange(GameManager.currentManager.characterManager.aiCharacterList);
         List<CharacterViz> result = new();
         foreach (var item in characters)
         {

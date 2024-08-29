@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Ability
+public class CardAbility
 {
     public KeyWord effect;
     public TargetType type;
-    public Ability(KeyWord inKeyWord, TargetType targetType=null)
+    public CardAbility(KeyWord inKeyWord, TargetType targetType=null)
     {
         effect = inKeyWord;
         type = targetType;
@@ -31,7 +31,7 @@ public class Ability
         }
         foreach (CharacterViz charViz in targets)
         {
-            effect.Activate(caster, cardViz, charViz);
+            effect.Activate(caster, charViz);
 
         }
     }

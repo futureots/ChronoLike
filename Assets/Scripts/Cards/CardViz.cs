@@ -23,7 +23,7 @@ public class CardViz : MonoBehaviour
     
     public bool isNeedTarget;
     public Dictionary<ColorType, int> costs { get; private set; }
-    public List<Ability> cardAbility;                                                   //카드 능력(키워드)
+    public List<CardAbility> cardAbility;                                                   //카드 능력(키워드)
     public int discardNum;                                                      //카드 사용후 버려질지 소멸될지, 덱 번호값
 
 

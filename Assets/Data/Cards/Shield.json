@@ -1,0 +1,28 @@
+{
+  
+  "$type": "CardData, Assembly-CSharp",
+  "title": "Shield",
+  "imagePath": "Assets/Data/Sprites\\Amumu.png",
+  "abilityDescription": "대상에게 쉴드를 {0} 부여한다.",
+  "isNeedTarget": true,
+  "cardColor": 2,
+  "costs": {
+    "$type": "System.Collections.Generic.Dictionary`2[[ColorType, Assembly-CSharp],[System.Int32, mscorlib]], mscorlib",
+    "Green": 1
+  },
+  "cardAbility": {
+    "$type": "System.Collections.Generic.List`1[[CardAbility, Assembly-CSharp]], mscorlib",
+    "$values": [
+      {
+        "$type": "CardAbility, Assembly-CSharp",
+        "effect": {
+          "$type": "GainShield, Assembly-CSharp",
+          "basicValue": 0,
+          "coef": 1.0,
+          "statusName": "Def"
+        },
+        "type": { "$type": "TTarget, Assembly-CSharp" }
+      }
+    ]
+  }
+}

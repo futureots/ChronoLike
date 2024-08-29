@@ -17,7 +17,7 @@ public class CheckBuff : KeyWord
     
 
 
-    public override void Activate(CharacterViz caster,CardViz card, CharacterViz target)
+    public override void Activate(CharacterViz caster, CharacterViz target)
     {
         
         if (type == null) return;
@@ -34,7 +34,7 @@ public class CheckBuff : KeyWord
             }
             for (int i = 0; i < count; i++)
             {
-                keyWord.Activate(caster,card, target);
+                keyWord.Activate(caster, target);
                 if (isDisposable) return;
             }
         }

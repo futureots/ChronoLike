@@ -30,23 +30,23 @@ public class CardCreator : MonoBehaviour
         CardData cardData = new();
 
 
-        cardData.title = "Stun";
+        cardData.title = "Barrier";
         cardData.imagePath = SpriteConverter.GetSpritePath(image);
-        cardData.abilityDescription = "대상에게 기절을 부여한다.";
-        cardData.isNeedTarget = true;
+        cardData.abilityDescription = "아군전체에 쉴드를 {0} 부여한다.";
+        cardData.isNeedTarget = false;
 
-        cardData.cardColor = ColorType.Blue;
+        cardData.cardColor = ColorType.White;
 
         cardData.costs = new();
-        cardData.costs.Add(ColorType.Blue, 2);
+        cardData.costs.Add(ColorType.White, 2);
 
         cardData.cardAbility = new();
-        TTarget target = new TTarget();
+        TAll target = new TAll(0);
 
-        Stun stun = new Stun();
-        AddBuff addBuff = new AddBuff(stun, 1);
-        Ability ability = new(addBuff,target);
+        GainShield shield = new GainShield(0, "Def",1);
+        CardAbility ability = new(shield,target);
         cardData.cardAbility.Add(ability);
+        
 
 
         return cardData;
@@ -186,7 +186,7 @@ cardData.title = "Blossom";
 
 cardData.title = "Berserk Soul";
         cardData.imagePath = SpriteConverter.GetSpritePath(image);
-        cardData.abilityDescription = "자신에게 출혈을 {0}부여한다. {1} : 대상에게 남은 체력만큼 피해를 입힌다.";
+        cardData.abilityDescription = "자신에게 출혈을 {0}부여한다. {1} : 대상에게 {2}만큼 피해를 입힌다.";
         cardData.isNeedTarget = true;
 
         cardData.cardColor = ColorType.Black;
@@ -199,8 +199,8 @@ cardData.title = "Berserk Soul";
 
         Bleed bleed = new Bleed();
         AddBuff addBuff = new AddBuff(bleed, 2);
-        DealAndHeal deal = new DealAndHeal(true, 1, "CurrentHp");
-        CheckWound checkWound = new(deal, false);
+        DealDamagedReceived dealDamagedReceived = new DealDamagedReceived();
+        CheckWound checkWound = new(dealDamagedReceived, false);
         Ability ability = new(addBuff);
         Ability ability1 = new(checkWound, target);
         cardData.cardAbility.Add(ability);
@@ -224,5 +224,22 @@ cardData.title = "Stun";
         Stun stun = new Stun();
         AddBuff addBuff = new AddBuff(stun, 1);
         Ability ability = new(addBuff,target);
+        cardData.cardAbility.Add(ability);
+
+cardData.title = "Shield";
+        cardData.imagePath = SpriteConverter.GetSpritePath(image);
+        cardData.abilityDescription = "대상에게 쉴드를 {0} 부여한다.";
+        cardData.isNeedTarget = true;
+
+        cardData.cardColor = ColorType.Green;
+
+        cardData.costs = new();
+        cardData.costs.Add(ColorType.Green, 1);
+
+        cardData.cardAbility = new();
+        TTarget target = new TTarget();
+
+        GainShield shield = new GainShield(0, "Def",1);
+        Ability ability = new(shield,target);
         cardData.cardAbility.Add(ability);
  */

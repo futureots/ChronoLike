@@ -11,7 +11,7 @@ public class CharacterData
     public ColorType type;
     
     public List<Status> statusList;
-    public Dictionary<string,Ability> characterAbility;
+    public List<CharacterAbility> characterAbility;
 
     public string artPath;                       //캐릭터 이미지 주소값
 

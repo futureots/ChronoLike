@@ -16,9 +16,9 @@ public class EnhanceValue : ValueKeyWord
     }
     public EnhanceValue(ValueKeyWord inKeyWord,float inCoef, string inStatusName) : this(inKeyWord,0, inCoef, inStatusName) { }
 
-    public override void Activate(CharacterViz caster, CardViz card, CharacterViz target)
+    public override void Activate(CharacterViz caster, CharacterViz target)
     {
-        keyWord.Activate(caster,card,target);
+        keyWord.Activate(caster, target);
 
         EnhanceKeyWord();
     }

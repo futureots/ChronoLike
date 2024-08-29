@@ -21,13 +21,13 @@ public class StatusBuff : Buff
         switch (statusName)
         {
             case "Atk":
-                iconPath = "Assets/Data/Sprites\\Knife.png";
+                iconPath = "Assets/Data/Sprites\\KnifeIcon.png";
                 break;
             case "Def":
-                iconPath = "Assets/Data/Sprites\\Shield.png";
+                iconPath = "Assets/Data/Sprites\\ShieldIcon.png";
                 break;
             case "Hp":
-                iconPath = "Assets/Data/Sprites\\Heart.png";
+                iconPath = "Assets/Data/Sprites\\HeartIcon.png";
                 break;
             default:
                 iconPath = "Assets/Data/Sprites\\Amumu.png";

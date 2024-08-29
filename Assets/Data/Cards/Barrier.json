@@ -1,0 +1,31 @@
+{
+  
+  "$type": "CardData, Assembly-CSharp",
+  "title": "Barrier",
+  "imagePath": "Assets/Data/Sprites\\Amumu.png",
+  "abilityDescription": "아군전체에 쉴드를 {0} 부여한다.",
+  "isNeedTarget": false,
+  "cardColor": 3,
+  "costs": {
+    "$type": "System.Collections.Generic.Dictionary`2[[ColorType, Assembly-CSharp],[System.Int32, mscorlib]], mscorlib",
+    "White": 2
+  },
+  "cardAbility": {
+    "$type": "System.Collections.Generic.List`1[[CardAbility, Assembly-CSharp]], mscorlib",
+    "$values": [
+      {
+        "$type": "CardAbility, Assembly-CSharp",
+        "effect": {
+          "$type": "GainShield, Assembly-CSharp",
+          "basicValue": 0,
+          "coef": 1.0,
+          "statusName": "Def"
+        },
+        "type": {
+          "$type": "TAll, Assembly-CSharp",
+          "charSetCode": 0
+        }
+      }
+    ]
+  }
+}

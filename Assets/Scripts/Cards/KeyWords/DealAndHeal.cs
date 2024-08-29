@@ -18,7 +18,7 @@ public class DealAndHeal : ValueKeyWord
     }
     public DealAndHeal(bool isDeal, float inCoef, string inStatusName) : this(isDeal, 0, inCoef, inStatusName) { }
     public DealAndHeal(bool isDeal, int inBasicValue) : this(isDeal, inBasicValue,0,null) { }
-    public override void Activate(CharacterViz caster, CardViz card, CharacterViz target)
+    public override void Activate(CharacterViz caster, CharacterViz target)
     {
         if (target == null) return;
         
@@ -28,7 +28,7 @@ public class DealAndHeal : ValueKeyWord
             Status status = Status.GetStatus(caster.statusList, statusName);
             damage += (int)(coef * status.value);
         }
-        Debug.Log("damage = "+ damage);
+        //Debug.Log("damage = "+ damage);
         if (isDeal) target.Damaged(damage);
         else target.Damaged(-damage);
     }
@@ -39,18 +39,12 @@ public class DealAndHeal : ValueKeyWord
 
         string str = "";
         int value = basicValue;
-        if (basicValue != 0)
-        {
-            //str += basicValue.ToString();
-        }
         if (statusName != null)
         {
-            //if (basicValue != 0) str += " + ";
             Status stat = Status.GetStatus(caster.statusList, statusName);
             if (stat != null)
             {
                 int damage = (int)(coef * stat.value);
-                //str += damage.ToString();
                 value += damage;
             }
         }

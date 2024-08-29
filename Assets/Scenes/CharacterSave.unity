@@ -502,7 +502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f193a16252220940b79525afe0f9b08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  image: {fileID: 21300000, guid: 11669bb73ee97e64e962de4366e71096, type: 3}
+  image: {fileID: 21300000, guid: f94de9f8edbff404b869433a9c2e2e33, type: 3}
   loader: {fileID: 1077720107}
 --- !u!114 &1077720107
 MonoBehaviour:

@@ -22,7 +22,7 @@ public class Poison : Dot
         target = inCharacter;
 
         target.TurnStart += new CharacterViz.AbilityActivate(BuffCountDown);
-        Debug.Log(target + "added");
+        
         //Debug.Log("Buff Attached/ " + target.name + " // Dot count = " + countNum);
     }
 

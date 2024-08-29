@@ -23,7 +23,7 @@ public class Bleed : Dot
 
     public override void DetachBuff()
     {
-        Debug.Log("DetachBuff");
+        //Debug.Log("DetachBuff");
         target.TurnStart -= new CharacterViz.AbilityActivate(BuffCountDown);
         //Debug.Log("Buff Detached/ " + target.name);
         target = null;
@@ -32,7 +32,7 @@ public class Bleed : Dot
     {
         target.Damaged(2);
         countNum = Mathf.Max(countNum - 1, 0);
-        Debug.Log("Dot Count = " + countNum);
+        //Debug.Log("Dot Count = " + countNum);
     }
 
     public override bool MergeBuff(Buff inBuff)

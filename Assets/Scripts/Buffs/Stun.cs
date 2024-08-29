@@ -27,7 +27,7 @@ public class Stun : Buff
         if (inCharacter == null) return;
         target = inCharacter;
         target.isActable = false;
-        target.CharAction += new CharacterViz.AbilityActivate(BuffCountDown);
+        target.ActBefore += new CharacterViz.AbilityActivate(BuffCountDown);
     }
     public void BuffCountDown()
     {
@@ -37,7 +37,7 @@ public class Stun : Buff
     public override void DetachBuff()
     {
         target.isActable = true;
-        target.CharAction -= new CharacterViz.AbilityActivate(BuffCountDown);
+        target.ActBefore -= new CharacterViz.AbilityActivate(BuffCountDown);
         target = null;
     }
     public override bool MergeBuff(Buff inBuff)

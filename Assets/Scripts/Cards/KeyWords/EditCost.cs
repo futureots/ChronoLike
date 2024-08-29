@@ -14,7 +14,7 @@ public class EditCost : KeyWord
         isMaxCost = inIsMaxCost;
         value = inValue;
     }
-    public override void Activate(CharacterViz caster,CardViz card, CharacterViz target)
+    public override void Activate(CharacterViz caster, CharacterViz target)
     {
         int colorNum = (int)color;
         CostElement costElement = GameManager.currentManager.costManager.costList[colorNum];

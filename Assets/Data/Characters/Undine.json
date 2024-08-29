@@ -1,5 +1,5 @@
 {
-  
+
   "$type": "CharacterData, Assembly-CSharp",
   "name": "Undine",
   "type": 1,
@@ -30,28 +30,32 @@
     ]
   },
   "characterAbility": {
-    "$type": "System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[Ability, Assembly-CSharp]], mscorlib",
-    "TurnStart": {
-      "$type": "Ability, Assembly-CSharp",
-      "effect": {
-        "$type": "AddBuff, Assembly-CSharp",
-        "buff": {
-          "$type": "Poison, Assembly-CSharp",
-          "iconPath": "Assets/Data/Sprites\\Bubble.png",
-          "target": null,
-          "countNum": 0
+    "$type": "System.Collections.Generic.List`1[[CharacterAbility, Assembly-CSharp]], mscorlib",
+    "$values": [
+      {
+        "$type": "CharacterAbility, Assembly-CSharp",
+        "keyWord": {
+          "$type": "AddBuff, Assembly-CSharp",
+          "buff": {
+            "$type": "Poison, Assembly-CSharp",
+            "iconPath": "Assets/Data/Sprites\\Bubble.png",
+            "target": null,
+            "countNum": 0
+          },
+          "basicValue": 1,
+          "coef": 0.0,
+          "statusName": null,
+          "targets": null
         },
-        "basicValue": 1,
-        "coef": 0.0,
-        "statusName": null,
-        "targets": null
-      },
-      "type": {
-        "$type": "TRandom, Assembly-CSharp",
-        "num": 1,
-        "charSetCode": 1
+        "actionType": 1,
+        "targetType": {
+          "$type": "TRandom, Assembly-CSharp",
+          "num": 1,
+          "charSetCode": 1
+        },
+        "owner": null
       }
-    }
+    ]
   },
   "artPath": "Assets/Data/Sprites\\sc_354.jpg"
 }

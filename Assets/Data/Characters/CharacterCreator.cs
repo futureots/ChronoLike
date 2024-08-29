@@ -25,28 +25,29 @@ public class CharacterCreator : MonoBehaviour
         CharacterData characterData = new CharacterData();
 
 
-        characterData.name = "Alps";
-        characterData.type = ColorType.Green;
+        characterData.name = "Ifrit";
+        characterData.type = ColorType.Red;
         characterData.artPath = SpriteConverter.GetSpritePath(image);
 
         characterData.statusList = new();
 
-        Status atk = new("Atk", 6, 999, 0);
+        Status atk = new("Atk", 8, 999, 0);
         characterData.statusList.Add(atk);
 
-        Status hp = new("Hp", 29, 999, 0);
+        Status hp = new("Hp", 27, 999, 0);
         characterData.statusList.Add(hp);
 
-        Status def = new("Def", 9, 999, 0);
+        Status def = new("Def", 7, 999, 0);
         characterData.statusList.Add(def);
 
+
+
         characterData.characterAbility = new();
+        TRandom random = new(1, 1);
+        DealAndHeal keyWord = new(true, 1);
+        CharacterAbility ab = new(keyWord,random,CharacterAbility.AbilityType.TurnStart);
 
-
-        EditCost editCost = new(ColorType.Green, true);
-        Ability ab = new(editCost);
-
-        characterData.characterAbility.Add("GameStart", ab);
+        characterData.characterAbility.Add(ab);
 
         return characterData;
     }
@@ -100,6 +101,29 @@ public class CharacterCreator : MonoBehaviour
         Ability ab = new(addBuff,random);
 
         characterData.characterAbility.Add("TurnStart",ab);
+
+
+ * characterData.name = "Alps";
+        characterData.type = ColorType.Green;
+        characterData.artPath = SpriteConverter.GetSpritePath(image);
+
+        characterData.statusList = new();
+
+        Status atk = new("Atk", 6, 999, 0);
+        characterData.statusList.Add(atk);
+
+        Status hp = new("Hp", 29, 999, 0);
+        characterData.statusList.Add(hp);
+
+        Status def = new("Def", 9, 999, 0);
+        characterData.statusList.Add(def);
+
+        characterData.characterAbility = new();
+        EditCost editCost = new(ColorType.Green, true);
+        CharacterAbility ab = new();
+        ab.keyWord = editCost;
+
+        characterData.characterAbility.Add(ab);
  * 
  * 
  * 

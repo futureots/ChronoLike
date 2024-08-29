@@ -81,7 +81,7 @@ public class DeckManager : MonoBehaviour
 
     public void ExhaustCharCard(CharacterViz inDeadChar)                      //캐릭터 죽으면 캐릭터 카드 전부 소멸시키기
     {
-
+        
         for (int i = 0; i < 3; i++)
         {
             Debug.Log("deck" + i + " count =" + decks[i].Count + " transform count =" + deckTransforms[i].childCount);
@@ -107,7 +107,7 @@ public class DeckManager : MonoBehaviour
 
     public void UpdateDeck()
     {
-        for (int i = 0; i < decks.Length; i++)
+        for (int i = 0; i < 3; i++)
         {
             foreach (var item in decks[i])
             {

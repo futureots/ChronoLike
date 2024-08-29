@@ -14,7 +14,7 @@ public class AddBuff : ValueKeyWord
         statusName = inStatusName;
     }
     public AddBuff(Buff inBuff, float inCoef = 0, string inStatusName = null) : this(inBuff, 0, inCoef, inStatusName) { }
-    public override void Activate(CharacterViz caster, CardViz card, CharacterViz target)
+    public override void Activate(CharacterViz caster, CharacterViz target)
     {
         if (target == null) return;
         buff.countNum = basicValue;

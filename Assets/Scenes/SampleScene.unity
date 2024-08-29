@@ -1341,6 +1341,7 @@ MonoBehaviour:
   characterVizPrefab: {fileID: 643935601582952442, guid: 383d57ae722bd854da6cc7daaee7110e, type: 3}
   playableTransform: {fileID: 2083363712}
   aiTransform: {fileID: 137963635}
+  aiList: []
 --- !u!114 &488298125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1384,6 +1385,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CardPrefab: {fileID: 6951780141630322348, guid: bca3b0370e2f68b4a96e958b570dde0d, type: 3}
   CharPrefab: {fileID: 643935601582952442, guid: 383d57ae722bd854da6cc7daaee7110e, type: 3}
+  AIPrefab: {fileID: 638836067800330457, guid: 8db427b5095cace42b0a27b8d1556524, type: 3}
   allies:
   - character: Ifrit
     cards:
@@ -1401,19 +1403,15 @@ MonoBehaviour:
     cards:
     - Growth
     - Blossom
+    - Shield
+    - Barrier
   enemies:
   - character: Ifrit
-    cards:
-    - Lightening Shot
-    actionCount: 1
+    ai: {fileID: 0}
+  - character: Alps
+    ai: {fileID: 0}
   - character: Ifrit
-    cards:
-    - Flame Shot
-    actionCount: 1
-  - character: Ifrit
-    cards:
-    - Dark Shot
-    actionCount: 1
+    ai: {fileID: 0}
 --- !u!4 &501519160
 Transform:
   m_ObjectHideFlags: 0
@@ -1899,7 +1897,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 970, y: -511.52}
+  m_AnchoredPosition: {x: 970, y: -511.52002}
   m_SizeDelta: {x: 1504.12, y: 857.05}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &617438840
@@ -2109,7 +2107,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 970, y: -511.52}
+  m_AnchoredPosition: {x: 970, y: -511.52002}
   m_SizeDelta: {x: 1504.12, y: 857.05}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &803920387
@@ -2966,7 +2964,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 970, y: -511.52}
+  m_AnchoredPosition: {x: 970, y: -511.52002}
   m_SizeDelta: {x: 1504.12, y: 857.05}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1014766724
@@ -3228,7 +3226,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 827808582}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: EndPlayerTurn
+        m_MethodName: EndPlayerTurnBtn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5934,7 +5932,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 970, y: -511.52}
+  m_AnchoredPosition: {x: 970, y: -511.52002}
   m_SizeDelta: {x: 1504.12, y: 857.05}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2092173987

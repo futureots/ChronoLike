@@ -11,10 +11,10 @@
     "Blue": 1
   },
   "cardAbility": {
-    "$type": "System.Collections.Generic.List`1[[Ability, Assembly-CSharp]], mscorlib",
+    "$type": "System.Collections.Generic.List`1[[CardAbility, Assembly-CSharp]], mscorlib",
     "$values": [
       {
-        "$type": "Ability, Assembly-CSharp",
+        "$type": "CardAbility, Assembly-CSharp",
         "effect": {
           "$type": "AddBuff, Assembly-CSharp",
           "buff": {
@@ -23,7 +23,7 @@
             "target": null,
             "countNum": 0
           },
-          "basicValue": 3,
+          "basicValue": 4,
           "coef": 0.0,
           "statusName": null,
           "targets": null

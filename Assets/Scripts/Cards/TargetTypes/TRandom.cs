@@ -7,7 +7,7 @@ public class TRandom : TargetType
 {
     public int num;
     public int charSetCode;                                                                       //0 : 아군 , 1 : 적군, 2+ 그외 : 전부다
-    public TRandom(int inNum, int inCharSetCode)
+    public TRandom(int inNum, int inCharSetCode =1)
     {
         num = inNum;
         charSetCode = inCharSetCode;
@@ -15,8 +15,8 @@ public class TRandom : TargetType
     public override List<CharacterViz> GetTarget(bool isPlayerTeam)//중복 없이 랜덤 인원 뽑기(중복이 필요하면 프로퍼티 두개 사용)
     {
         List<CharacterViz> characters = new();
-        characters.AddRange(GameManager.currentManager.characterManager.playableCharacters);
-        characters.AddRange(GameManager.currentManager.characterManager.aiCharacters);
+        characters.AddRange(GameManager.currentManager.characterManager.playableCharacterList);
+        characters.AddRange(GameManager.currentManager.characterManager.aiCharacterList);
         List<CharacterViz> pool = new();
         foreach (var item in characters)
         {

@@ -9,6 +9,7 @@ public class CharacterViz : MonoBehaviour
     public Image art;
     public TextMeshProUGUI characterName;
     public TextMeshProUGUI hp;
+    public GameObject shieldObj;
     public bool isActable;
     public Image hpBar;
 
@@ -19,24 +20,27 @@ public class CharacterViz : MonoBehaviour
 
     public CharacterData data;
     public List<Status> statusList;
+    
     public ColorType colorType;
-    public Dictionary<string, Ability> characterAbility;
+    public List<CharacterAbility> characterAbility;
     
     public bool isAlly;
 
     public delegate void AbilityActivate();
-    public AbilityActivate TurnStart, TurnEnd, CharAction, CharDamaged, CharDead;
+    public AbilityActivate TurnStart, TurnEnd, ActBefore, ActAfter, CharDamaged, CharDead;
 
     private void Awake()
     {
         TurnStart = new AbilityActivate(() => { });
         TurnEnd = new AbilityActivate(() => { });
-        CharAction = new AbilityActivate(() => { });
+        ActBefore = new AbilityActivate(() => { });
+        ActAfter = new AbilityActivate(() => { });
         CharDamaged = new AbilityActivate(() => { });
         CharDead = new AbilityActivate(() => { });
     }
     public void LoadCharacter(CharacterData inCharData, bool inIsAlly)
     {
+        //캐릭터 로드
         if (inCharData == null) return;
         data = inCharData;
         characterName.text = inCharData.name;
@@ -56,11 +60,55 @@ public class CharacterViz : MonoBehaviour
         Status currentHp = new Status(Status.GetStatus(statusList, "Hp"));
         currentHp.name = "CurrentHp";
         statusList.Add(currentHp);
+        //캐릭터 능력 추가
+        foreach (var item in characterAbility)
+        {
+            item.owner = this;
+            switch (item.actionType)
+            {
+                case CharacterAbility.AbilityType.GameStart:
+                    if(GameManager.currentManager != null) GameManager.currentManager.GameStart += new GameManager.AbilityActivate(item.Activate);
+                    break;
+                case CharacterAbility.AbilityType.TurnStart:
+                    TurnStart += new AbilityActivate(item.Activate);
+                    break;
+                case CharacterAbility.AbilityType.TurnEnd:
+                    TurnEnd += new AbilityActivate(item.Activate);
+                    break;
+                case CharacterAbility.AbilityType.ActionBefore:
+                    ActBefore += new AbilityActivate(item.Activate);
+                    break;
+                case CharacterAbility.AbilityType.ActionAfter:
+                    ActAfter += new AbilityActivate(item.Activate);
+                    break;
+                case CharacterAbility.AbilityType.Damaged:
+                    CharDamaged += new AbilityActivate(item.Activate);
+                    break;
+                case CharacterAbility.AbilityType.Dead:
+                    CharDead += new AbilityActivate(item.Activate);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+
+
         UpdateCharacter();
     }
 
     public void UpdateCharacter()
     {
+        Status shield = Status.GetStatus(statusList, "Shield");
+        if(shield == null)
+        {
+            shieldObj.SetActive(false);
+        }
+        else
+        {
+            shieldObj.SetActive(true);
+            shieldObj.GetComponentInChildren<TextMeshProUGUI>().text = shield.value.ToString();
+        }
         Status currentHp = Status.GetStatus(statusList, "CurrentHp");
         Status maxHp = Status.GetStatus(statusList, "Hp");
         if (currentHp == null || maxHp == null) return;
@@ -103,9 +151,18 @@ public class CharacterViz : MonoBehaviour
     
     public void Damaged(int damage)
     {
+        Status shield = Status.GetStatus(statusList, "Shield");
+        if(shield != null)
+        {
+            int remainDamage = damage - shield.value;
+            shield.EditValue(-damage, Status.Operation.Add);
+            if(shield.value<=0) statusList.Remove(shield);
+            damage = remainDamage;
+        }
+        if (damage <= 0) return;
         Status currentHp = Status.GetStatus(statusList, "CurrentHp");
         currentHp.EditValue(-damage, Status.Operation.Add);
-        CharDamaged();
+        CharDamaged.Invoke();
         if (currentHp.StatIsZero())
         {
             Dead();
@@ -114,8 +171,14 @@ public class CharacterViz : MonoBehaviour
     public void Dead()
     {
         CharDead.Invoke();
+        GameManager.currentManager.characterManager.ExceptCharacter(this);
     }
-
+    public void DestroyShield()
+    {
+        Status shield =Status.GetStatus(statusList, "Shield");
+        if(shield == null) return;
+        statusList.Remove(shield);
+    }
     public void AttachBuff(Buff inBuff)
     {
         Buff buff = inBuff.Clone();
@@ -128,7 +191,6 @@ public class CharacterViz : MonoBehaviour
                 buffViz.UpdateViz();
                 return;
             }
-
         }
         buffViz = Instantiate(buffPrefab, buffTransform).GetComponent<BuffViz>();
         //Debug.Log(buffViz.name);

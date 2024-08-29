@@ -10,15 +10,16 @@ public class CharacterManager : MonoBehaviour
 
 
     public Transform playableTransform;
-    public List<CharacterViz> playableCharacters { get; private set; }
+    public List<CharacterViz> playableCharacterList { get; private set; }
     public Transform aiTransform;
-    public  List<CharacterViz> aiCharacters { get; private set; } 
+    public  List<CharacterViz> aiCharacterList { get; private set; }
+    public List<CharacterAI> aiList;
 
     private void Start()
     {
-        playableCharacters = new();
-        aiCharacters = new();
-        
+        playableCharacterList = new();
+        aiCharacterList = new();
+        aiList = new();
     }
     
     public void SetCharacter(List<CharacterViz> inData, bool isAlly)//캐릭터의 팀확인해서 아군, 적 세팅 
@@ -27,12 +28,12 @@ public class CharacterManager : MonoBehaviour
         List<CharacterViz> charList;
         if (isAlly)                                                                                  //아군
         {
-            charList = playableCharacters;
+            charList = playableCharacterList;
             team = playableTransform;
         }
         else                                                    //적
         {
-            charList = aiCharacters;
+            charList = aiCharacterList;
             team = aiTransform;
             
         }
@@ -55,44 +56,61 @@ public class CharacterManager : MonoBehaviour
 
     public void UpdateCharacter()
     {
-        List<CharacterViz> viz = new(GetComponentsInChildren<CharacterViz>());
-        if (viz == null) return;
+        List<CharacterViz> viz = new();
+        viz.AddRange(playableCharacterList);
+        viz.AddRange(aiCharacterList);
         for (int i = viz.Count-1; i >=0; i--)
         {
+            if (viz[i] == null)
+            {
+                Debug.Log("null");
+                continue;
+            }
             viz[i].UpdateCharacter();
         }
-        if(playableCharacters.Count == 0) 
+        if(playableCharacterList.Count == 0) 
         {
             GameManager.currentManager.GameEnd(false);
         }
-        else if(aiCharacters.Count == 0)
+        else if(aiCharacterList.Count == 0)
         {
             GameManager.currentManager.GameEnd(true);
         }
     }
-    public void DestroyCharacter(CharacterViz inCharacterViz)
+    public void DestroyCharactersShield(bool IsAlly)
     {
-        GameObject ch = inCharacterViz.gameObject;
-        //DeplyCharAbility(inCharacter);
-        for (int i = 0; i < playableCharacters.Count; i++)
+        List<CharacterViz> charList;
+        if (IsAlly)
         {
-            if (playableCharacters[i].Equals(inCharacterViz))
-            {
-                GameManager.currentManager.deckManager.ExhaustCharCard(inCharacterViz);                   //아군일경우
-                playableCharacters.RemoveAt(i);
-                Destroy(ch);
-                return;
-            }
+            charList = playableCharacterList;
         }
-        for (int i = 0; i < aiCharacters.Count; i++)
+        else
         {
-            if (aiCharacters[i].Equals(inCharacterViz))                                                                          //적일경우
-            {
-                aiCharacters.RemoveAt(i);
-                Destroy(ch);
-                return;
-            }
+            charList = aiCharacterList;
         }
+        foreach (var item in charList)
+        {
+            item.DestroyShield();
+        }
+    }
+    public void ExceptCharacter(CharacterViz inCharacterViz)
+    {
+        inCharacterViz.transform.SetParent(null);
+        if (inCharacterViz.isAlly)                                                 //아군
+        {
+            Debug.Log(inCharacterViz + "Except");
+            playableCharacterList.Remove(inCharacterViz);
+            GameManager.currentManager.deckManager.ExhaustCharCard(inCharacterViz);
+        }
+        else                                                                           //적
+        {
+            Debug.Log("Destroy :"  + inCharacterViz);
+            CharacterAI ai = inCharacterViz.GetComponentInChildren<CharacterAI>();
+            aiCharacterList.Remove(inCharacterViz);
+            aiList.Remove(ai);
+        }
+        
+        Destroy(inCharacterViz.gameObject);
     }
 
 

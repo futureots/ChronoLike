@@ -29,17 +29,17 @@ public class GameManager : MonoBehaviour
         ResourceManager.gameResources.GetResources(this);
 
         GameStart();
-        EndEnemyTurn();
+        StartCoroutine(EndEnemyTurn());
     }
 
-    public void StartPlayerTurn()//턴시작시 코스트 초기화, 카드드로우
+    public IEnumerator StartPlayerTurn()//턴시작시 코스트 초기화, 카드드로우
     {
         // 캐릭터 버프 카운트 => 버프 카운트를 델리게이트에 넣고, 델리게이트 함수 실행
-        foreach (var item in characterManager.playableCharacters)
+        List<CharacterViz> charList = characterManager.playableCharacterList;
+        for(int i=charList.Count-1;i>=0;i--)
         {
-            item.TurnStart();
+            charList[i].TurnStart.Invoke();
         }
-        
 
         //코스트 초기화
         costManager.FillCost();
@@ -49,46 +49,68 @@ public class GameManager : MonoBehaviour
 
 
         characterManager.UpdateCharacter();
+                yield return null;
     }
-    public void EndPlayerTurn()//턴종료시 실린더에 남은 마나 제거, 핸드 제거
+    public void EndPlayerTurnBtn()
+    {
+        StartCoroutine(EndPlayerTurn());
+    }
+    public IEnumerator EndPlayerTurn()//턴종료시 실린더에 남은 마나 제거, 핸드 제거
     {
         //남은코스트 제거
         costManager.costCylinder.ClearCylinder();
 
         //특정 키워드 사용
-        foreach (var item in characterManager.playableCharacters)
+        List<CharacterViz> charList = characterManager.playableCharacterList;
+        for (int i = charList.Count - 1; i >= 0; i--)
         {
-            item.TurnEnd();
+            charList[i].TurnEnd.Invoke();
         }
+        yield return null;
         //핸드 제거
         deckManager.ClearHand();
 
+        characterManager.DestroyCharactersShield(false);
         characterManager.UpdateCharacter();
 
-        StartEnemyTurn();
         
-        
+
+        StartCoroutine(StartEnemyTurn());
     }
-    public void StartEnemyTurn()
+    public IEnumerator StartEnemyTurn()
     {
         // 캐릭터 버프 카운트 => 버프 카운트를 델리게이트에 넣고, 델리게이트 함수 실행
-        foreach (var item in characterManager.aiCharacters)
+        List<CharacterViz> charList = characterManager.aiCharacterList;
+        for (int i = charList.Count - 1; i >= 0; i--)
         {
-            item.TurnStart();
+            charList[i].TurnStart.Invoke();
         }
-
+        yield return null;
+        foreach (var item in characterManager.aiList)
+        {
+            item.CharAction();
+        }
         characterManager.UpdateCharacter();
-
-        EndEnemyTurn();
+        yield return null;
+        StartCoroutine(EndEnemyTurn());
     }
-    public void EndEnemyTurn()
+    public IEnumerator EndEnemyTurn()
     {
-        foreach (var item in characterManager.aiCharacters)
+        List<CharacterViz> charList = characterManager.aiCharacterList;
+        for (int i = charList.Count - 1; i >= 0; i--)
         {
-            item.TurnEnd();
+            charList[i].TurnEnd.Invoke();
         }
+        yield return null;
+        foreach (var item in characterManager.aiList)
+        {
+            item.SetAction();
+        }
+        characterManager.DestroyCharactersShield(true);
         characterManager.UpdateCharacter();
-        StartPlayerTurn();
+
+        yield return null;
+        StartCoroutine(StartPlayerTurn());
     }
 
 
@@ -113,14 +135,15 @@ public class GameManager : MonoBehaviour
         Debug.Log("Cost Paid");
 
         //시전자랑 타겟(없으면null) 할당
-        bool actable = true;
-        if (!cardViz.caster.isActable) actable = false;
+        bool actable = cardViz.caster.isActable;
+
         draggable.SetTransform();
-        cardViz.caster.CharAction.Invoke();
+        cardViz.caster.ActBefore.Invoke();
         int discardNum=2;
         if (actable)
         {
             discardNum = cardViz.Execute(charViz);                                                                      //카드 발동 및 버리기
+            cardViz.caster.ActAfter.Invoke();
         }
         deckManager.DiscardCard(draggable.previousSiblingNum,discardNum);
 
