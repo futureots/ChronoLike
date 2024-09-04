@@ -32,6 +32,12 @@ public class DealAndHeal : ValueKeyWord
         if (isDeal) target.Damaged(damage);
         else target.Damaged(-damage);
     }
+    public override void Activate(int value, CharacterViz target)
+    {
+        if (target == null) return;
+        if (isDeal) target.Damaged(value);
+        else target.Damaged(-value);
+    }
     public override List<string> GetVariables(CharacterViz caster, CharacterViz target = null)
     {
         if (caster == null) return new List<string> { "" };

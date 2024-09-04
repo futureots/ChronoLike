@@ -44,7 +44,8 @@ public class CharacterAbility
         }
         for(int i = 0; i < targets.Count; i++)
         {
-            keyWord.Activate(owner, targets[i]);
+            int atk = Status.GetStatus(owner.statusList, "Atk").value;
+            keyWord.Activate(atk, targets[i]);
         }
     }
     
