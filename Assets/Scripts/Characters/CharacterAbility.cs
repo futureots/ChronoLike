@@ -27,6 +27,14 @@ public class CharacterAbility
         actionType = abilityType;
         owner = null;
     }
+    public void Initiate()
+    {
+        keyWord.Init();
+    }
+    public void Delete()
+    {
+        keyWord.Delete();
+    }
     public void Activate()
     {
         List<CharacterViz> targets = new List<CharacterViz>();
@@ -45,7 +53,7 @@ public class CharacterAbility
         for(int i = 0; i < targets.Count; i++)
         {
             int atk = Status.GetStatus(owner.statusList, "Atk").value;
-            keyWord.Activate(atk, targets[i]);
+            keyWord.Active(null,targets[i]);
         }
     }
     

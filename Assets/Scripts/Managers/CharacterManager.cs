@@ -38,18 +38,22 @@ public class CharacterManager : MonoBehaviour
             
         }
 
-        foreach (var item in inData)
-        {                                                                           
-            charList.Add(item);
-            item.transform.SetParent(team);
-            item.transform.localScale = Vector3.one;
+        foreach (var datum in inData)
+        {
+            
+            charList.Add(datum);
+            datum.transform.SetParent(team);
+            datum.transform.localScale = Vector3.one;
             if (!isAlly)
             {
-                item.art.gameObject.transform.localScale = new Vector3(-1, 1, 1);
-
+                datum.art.gameObject.transform.localScale = new Vector3(-1, 1, 1);
+            }
+            foreach (var item in datum.characterAbility)
+            {
+                item.Initiate();
             }
             //ApplyCharAbility(item);
-            item.UpdateCharacter();
+            datum.UpdateCharacter();
         }
 
     }
@@ -95,6 +99,10 @@ public class CharacterManager : MonoBehaviour
     }
     public void ExceptCharacter(CharacterViz inCharacterViz)
     {
+        foreach (var item in inCharacterViz.characterAbility)
+        {
+            item.Delete();
+        }
         inCharacterViz.transform.SetParent(null);
         if (inCharacterViz.isAlly)                                                 //¾Æ±º
         {

@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CheckBuff : KeyWord
+public class CheckBuff : KeyWordInKeyWord
 {
-    public ValueKeyWord keyWord;
     public System.Type type;
     public bool isDisposable;
     public CheckBuff() : this(null) { }
-    public CheckBuff(ValueKeyWord inKeyWord, bool inIsDisposable=true,System.Type inType = null)
+    public CheckBuff(KeyWord inKeyWord, bool inIsDisposable=true,System.Type inType = null)
     {
         keyWord = inKeyWord;
         isDisposable = inIsDisposable;
@@ -17,7 +16,7 @@ public class CheckBuff : KeyWord
     
 
 
-    public override void Activate(CharacterViz caster, CharacterViz target)
+    public override void Active(CardViz cardViz, CharacterViz target)
     {
         
         if (type == null) return;
@@ -34,14 +33,14 @@ public class CheckBuff : KeyWord
             }
             for (int i = 0; i < count; i++)
             {
-                keyWord.Activate(caster, target);
+                keyWord.Active(cardViz,target);
                 if (isDisposable) return;
             }
         }
     }
-    public override List<string> GetVariables(CharacterViz caster, CharacterViz target = null)
+    public override List<string> GetVariables(CharacterViz target = null)
     {
-        return keyWord.GetVariables(caster, target);
+        return keyWord.GetVariables(target);
     }
 
 }

@@ -14,7 +14,7 @@ public class AddBuff : ValueKeyWord
         statusName = inStatusName;
     }
     public AddBuff(Buff inBuff, float inCoef = 0, string inStatusName = null) : this(inBuff, 0, inCoef, inStatusName) { }
-    public override void Activate(CharacterViz caster, CharacterViz target)
+    public override void Active(CardViz cardViz, CharacterViz target)
     {
         if (target == null) return;
         buff.countNum = basicValue;
@@ -27,7 +27,7 @@ public class AddBuff : ValueKeyWord
 
         target.AttachBuff(buff.Clone());
     }
-    public override List<string> GetVariables(CharacterViz caster, CharacterViz target = null)
+    public override List<string> GetVariables(CharacterViz target = null)
     {
         if (caster == null) return new List<string> { "" };
 

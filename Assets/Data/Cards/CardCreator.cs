@@ -30,23 +30,23 @@ public class CardCreator : MonoBehaviour
         CardData cardData = new();
 
 
-        cardData.title = "Barrier";
+        cardData.title = "ReduceCost";
         cardData.imagePath = SpriteConverter.GetSpritePath(image);
-        cardData.abilityDescription = "아군전체에 쉴드를 {0} 부여한다.";
+        cardData.abilityDescription = "카드를 선택한다. 선택한 카드의 메인코스트를 1낮춘다.";
         cardData.isNeedTarget = false;
 
-        cardData.cardColor = ColorType.White;
+        cardData.cardColor = ColorType.Green;
 
         cardData.costs = new();
-        cardData.costs.Add(ColorType.White, 2);
+        cardData.costs.Add(ColorType.Green, 1);
 
         cardData.cardAbility = new();
-        TAll target = new TAll(0);
 
-        GainShield shield = new GainShield(0, "Def",1);
-        CardAbility ability = new(shield,target);
+        CardCostDown cardCostDown = new CardCostDown();
+        cardCostDown.subtractValue = 1;
+        CardAbility ability = new(cardCostDown, null);
         cardData.cardAbility.Add(ability);
-        
+
 
 
         return cardData;

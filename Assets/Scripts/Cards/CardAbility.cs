@@ -12,7 +12,12 @@ public class CardAbility
         effect = inKeyWord;
         type = targetType;
     }
-    public void Execute(CardViz cardViz, CharacterViz target)                 //target = 없으면 null 입력
+
+    public void Delete()
+    {
+        effect.Delete();
+    }
+    public void Activate(CardViz cardViz, CharacterViz target)                 //target = 없으면 null 입력
     {
         if (effect == null) return;
         CharacterViz caster = cardViz.caster;
@@ -31,7 +36,7 @@ public class CardAbility
         }
         foreach (CharacterViz charViz in targets)
         {
-            effect.Activate(caster, charViz);
+            effect.Active(cardViz,charViz);
 
         }
     }

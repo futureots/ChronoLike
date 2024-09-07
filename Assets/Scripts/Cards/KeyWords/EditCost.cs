@@ -14,13 +14,13 @@ public class EditCost : KeyWord
         isMaxCost = inIsMaxCost;
         value = inValue;
     }
-    public override void Activate(CharacterViz caster, CharacterViz target)
+    public override void Active(CardViz cardViz, CharacterViz target)
     {
         int colorNum = (int)color;
         CostElement costElement = GameManager.currentManager.costManager.costList[colorNum];
         costElement.EditCost(value, isMaxCost);
     }
-    public override List<string> GetVariables(CharacterViz caster, CharacterViz target = null)
+    public override List<string> GetVariables(CharacterViz target = null)
     {
         string str = value.ToString();
         List<string> result = new List<string>();

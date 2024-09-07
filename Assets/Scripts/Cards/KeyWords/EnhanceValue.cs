@@ -2,48 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnhanceValue : ValueKeyWord
+public class EnhanceValue : KeyWordInKeyWord
 {
-    public ValueKeyWord keyWord;
-
+    public int basicValue;
+    public float coef;
     public EnhanceValue() : this(null, 0) { }
-    public EnhanceValue(ValueKeyWord inKeyWord,int inBasicValue, float inCoef=0, string inStatusName=null)
+    public EnhanceValue(ValueKeyWord inKeyWord,int inBasicValue, float inCoef=0)
     {
         keyWord = inKeyWord;
         basicValue = inBasicValue;
         coef = inCoef;
-        statusName = inStatusName;
     }
-    public EnhanceValue(ValueKeyWord inKeyWord,float inCoef, string inStatusName) : this(inKeyWord,0, inCoef, inStatusName) { }
+    public EnhanceValue(ValueKeyWord inKeyWord,float inCoef) : this(inKeyWord,0, inCoef) { }
 
-    public override void Activate(CharacterViz caster, CharacterViz target)
+    public override void Active(CardViz cardViz, CharacterViz target)
     {
-        keyWord.Activate(caster, target);
+        keyWord.Active(cardViz,target);
 
         EnhanceKeyWord();
     }
 
-    public override List<string> GetVariables(CharacterViz caster, CharacterViz target = null)
+    public override List<string> GetVariables(CharacterViz target = null)
     {
         List<string> variables = new List<string>();
         if (caster != null)
         {
             string str = "";
-            if (basicValue != 0)
+            int damage = basicValue;
+            ValueKeyWord valueKeyWord = keyWord as ValueKeyWord;
+            if(valueKeyWord != null)
             {
-                str += basicValue.ToString();
+                if(valueKeyWord.statusName != null)
+                {
+                    Status stat = Status.GetStatus(caster.statusList, valueKeyWord.statusName);
+                    damage += (int)(stat.value*coef);
+                }
             }
-            if (statusName != null)
-            {
-                if (basicValue != 0) str += " + ";
-                Status stat = Status.GetStatus(caster.statusList, statusName);
-                int damage = (int)(coef * stat.value);
-                str += damage.ToString();
-            }
+            str = damage.ToString();
             variables.Add(str);
         }
         
-        variables.AddRange(keyWord.GetVariables(caster, target));
+        variables.AddRange(keyWord.GetVariables(target));
         //Debug.Log(variables.Count);
         return variables;
     }
@@ -51,7 +50,9 @@ public class EnhanceValue : ValueKeyWord
     public void EnhanceKeyWord()
     {
         if (keyWord == null) return;
-        keyWord.basicValue += basicValue;
-        keyWord.coef += coef;
+        ValueKeyWord valueKeyWord = keyWord as ValueKeyWord;
+        if (valueKeyWord == null) return;
+        valueKeyWord.basicValue += basicValue;
+        valueKeyWord.coef += coef;
     }
 }

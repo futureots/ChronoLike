@@ -5,7 +5,7 @@ using UnityEngine;
 public class DealDamagedReceived : KeyWord
 {
 
-    public override void Activate(CharacterViz caster, CharacterViz target)
+    public override void Active(CardViz cardViz, CharacterViz target)
     {
         if (target == null) return;
         Status hp = Status.GetStatus(caster.statusList, "Hp");
@@ -14,7 +14,7 @@ public class DealDamagedReceived : KeyWord
         target.Damaged(damage);
     }
 
-    public override List<string> GetVariables(CharacterViz caster, CharacterViz target = null)
+    public override List<string> GetVariables(CharacterViz target = null)
     {
         List<string> variables = new List<string>();
         if (caster == null)

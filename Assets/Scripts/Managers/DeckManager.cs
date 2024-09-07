@@ -35,12 +35,13 @@ public class DeckManager : MonoBehaviour
     {
         for (int i = 0; i < turnDrawCount; i++)
         {
-            DrawCard();
+            CardViz card = GetRandomCard(1);
+            DrawCard(card);
         }
     }
-    public GameObject GetRandomCard(int deckNum)
+    public CardViz GetRandomCard(int deckNum)
     {
-        GameObject card = null;
+        CardViz card = null;
         if(decks[deckNum].Count > 0)
         {
             int num = Random.Range(0, decks[deckNum].Count);
@@ -50,24 +51,26 @@ public class DeckManager : MonoBehaviour
         return card;
 
     }
-    public void DrawCard()
+    public void DrawCard(CardViz card)
     {
-        
-        if (decks[1].Count == 0)
+        if (decks[0].Contains(card))
         {
-            Debug.Log("No More Cards");
+            Debug.Log("Already Drawn");
             return;
         }
-        GameObject card = GetRandomCard(1);
-        SetDraggable(card);
+        
+        SetDraggable(card.gameObject);
         AddCard(0, card);
+        CardViz viz = card.GetComponent<CardViz>();
+        viz.AbilityInit();
         if (decks[1].Count == 0) RecycleDeck();
     }
     public void RecycleDeck()
     {
+        Debug.Log("RecycleDeck");
         for (int i = decks[2].Count - 1; i >= 0; i--) 
         {
-            GameObject obj = PopCard(2, i);
+            CardViz obj = PopCard(2, i);
             AddCard(1, obj);
         }
     }
@@ -89,7 +92,7 @@ public class DeckManager : MonoBehaviour
             {
                 if (decks[i][j].caster.Equals(inDeadChar))
                 {
-                    GameObject obj = PopCard(i, j);
+                    CardViz obj = PopCard(i, j);
                     AddCard(3, obj);
                     j--;
                 }
@@ -99,12 +102,10 @@ public class DeckManager : MonoBehaviour
     }
     public void DiscardCard(int inCardNum,int inDeckNum)
     {
-        GameObject obj = PopCard(0, inCardNum);
-        SetClickable(obj);
-        
+        CardViz obj = PopCard(0, inCardNum);
+        SetClickable(obj.gameObject);
         AddCard(inDeckNum,obj);
     }
-
     public void UpdateDeck()
     {
         for (int i = 0; i < 3; i++)
@@ -116,20 +117,19 @@ public class DeckManager : MonoBehaviour
         }
     }
 
-    GameObject PopCard(int deckNum, int cardNum)
+    CardViz PopCard(int deckNum, int cardNum)
     {
         if (decks[deckNum].Count <= cardNum) return null;
         //Debug.Log(deckTransforms[deckNum].childCount + "and "+ decks[deckNum].Count+ "is" + cardNum);
-        GameObject cardObj = deckTransforms[deckNum].GetChild(cardNum).gameObject;
-        decks[deckNum].RemoveAt(cardNum);
+        CardViz cardObj = decks[deckNum][cardNum];
+        decks[deckNum].Remove(cardObj);
         return cardObj;
     }
-    public void AddCard(int deckNum, GameObject cardObj)
+    public void AddCard(int deckNum, CardViz cardViz)
     {
-        CardViz cardViz = cardObj.GetComponent<CardViz>();
         if (cardViz == null) return;
         decks[deckNum].Add(cardViz);
-        cardObj.transform.SetParent(deckTransforms[deckNum]);
+        cardViz.transform.SetParent(deckTransforms[deckNum]);
     }
 
     Draggable SetDraggable(GameObject obj)
@@ -162,5 +162,30 @@ public class DeckManager : MonoBehaviour
         }
         clickable.enabled = true;
         return clickable;
+    }
+
+    public List<GameObject> SearchCards(int deckIndex)
+    {
+        List<GameObject> cards = new List<GameObject>();
+        foreach (var item in decks[deckIndex])
+        {
+            cards.Add(item.gameObject);
+        }
+        return cards;
+    }
+    public List<GameObject> SearchCards(string casterName)
+    {
+        List<GameObject> cards = new List<GameObject>();
+        for(int i = 0; i < 3; i++)
+        {
+            foreach (var item in decks[i])
+            {
+                if (item.caster.characterName.Equals(casterName))
+                {
+                    cards.Add(item.gameObject);
+                }
+            }
+        }
+        return cards;
     }
 }

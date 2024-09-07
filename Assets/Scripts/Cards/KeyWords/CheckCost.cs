@@ -2,12 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CheckCost : KeyWord
+public class CheckCost : KeyWordInKeyWord
 {
     public ColorType color;
     public int costNum;
     public bool isMax;
-    public KeyWord keyWord;
 
     public CheckCost() : this(null, ColorType.Red) { }
     public CheckCost(KeyWord inKeyWord,ColorType inColor,int inCostNum=0, bool inIsMax = false) 
@@ -18,9 +17,7 @@ public class CheckCost : KeyWord
         isMax = inIsMax;
         
     }
-
-
-    public override void Activate(CharacterViz caster, CharacterViz target)
+    public override void Active(CardViz cardViz, CharacterViz target)
     {
         int inCostNum;
         if (isMax)
@@ -33,11 +30,11 @@ public class CheckCost : KeyWord
         }
         if (inCostNum >= costNum)
         {
-            keyWord.Activate(caster,target);
+            keyWord.Active(cardViz, target);
         }
 
     }
-    public override List<string> GetVariables(CharacterViz caster, CharacterViz target = null)
+    public override List<string> GetVariables(CharacterViz target = null)
     {
         
         List<string> variable = new List<string>();
@@ -46,7 +43,7 @@ public class CheckCost : KeyWord
         else str += "<b>¿­¸Å</b>";
         str += costNum.ToString();
         variable.Add(str);
-        variable.AddRange(keyWord.GetVariables(caster,target));
+        variable.AddRange(keyWord.GetVariables(target));
         return variable;
     }
 

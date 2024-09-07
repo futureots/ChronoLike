@@ -35,6 +35,17 @@ public class CardViz : MonoBehaviour
     {
         raycastTarget = transform.GetChild(1).GetComponent<Image>();
     }
+
+    public void AbilityInit()
+    {
+        foreach (var item in cardAbility)
+        {
+            item.effect.Init();
+        }
+    }
+
+
+
     public void LoadCard(CardData inCardData, CharacterViz inCaster=null)
     {
         if (inCardData == null) return;
@@ -52,7 +63,34 @@ public class CardViz : MonoBehaviour
         isNeedTarget = cardData.isNeedTarget;
         costs = cardData.costs;
         cardAbility = cardData.cardAbility;
+        foreach (var ability in cardAbility)
+        {
+            ability.effect.SetKeyword(caster);
+        }
         UpdateAbilityDescribtion();
+
+        
+    }
+
+    public void UpdateAbilityDescribtion()
+    {
+        string vizDescription;
+        if (cardAbility.Count <= 0) return;
+        List<string> abilityVariable = new();
+        foreach (var item in cardAbility)
+        {
+            //Debug.Log(item.keyWord.GetVariables(caster).Count);
+            abilityVariable.AddRange(item.effect.GetVariables(caster));
+        }
+        string[] values = new string[abilityVariable.Count];
+        for (int i = 0; i < values.Length; i++)
+        {
+            values[i] = abilityVariable[i];
+        }
+        //Debug.Log(cardData.abilityDescription + "//" + values.Length);
+        vizDescription = string.Format(cardData.abilityDescription, values);
+        describtion.text = vizDescription;
+
 
         Color bgc = new();
         switch (cardData.cardColor)
@@ -61,16 +99,16 @@ public class CardViz : MonoBehaviour
                 bgc = Color.red;
                 break;
             case ColorType.Blue:
-                bgc= Color.blue;
+                bgc = Color.blue;
                 break;
             case ColorType.Green:
-                bgc= Color.green;
+                bgc = Color.green;
                 break;
             case ColorType.White:
-                bgc= Color.white;
+                bgc = Color.white;
                 break;
             case ColorType.Black:
-                bgc= Color.black;
+                bgc = Color.black;
                 break;
             case ColorType.Empty:
                 bgc = Color.white * 0.5f;
@@ -84,19 +122,19 @@ public class CardViz : MonoBehaviour
 
         if (costs == null) return;                                                              //카드코스트 모형 만들기
         if (costPrefab == null || resource == null) return;
-        int i = 0;
+        int index = 0;
         foreach (var item in costs)
         {
             GameObject temp;
-            if (resource.childCount > i)
+            if (resource.childCount > index)
             {
-                temp = resource.GetChild(i).gameObject;
+                temp = resource.GetChild(index).gameObject;
             }
             else
             {
                 temp = Instantiate(costPrefab, resource);
             }
-            i++;
+            index++;
 
 
             temp.name = item.Key.ToString();                                                            //색 입히기
@@ -134,30 +172,12 @@ public class CardViz : MonoBehaviour
 
 
         }
-    }
 
-    public void UpdateAbilityDescribtion()
-    {
-        string vizDescription;
-        if (cardAbility.Count <= 0) return;
-        List<string> abilityVariable = new();
-        foreach (var item in cardAbility)
-        {
-            //Debug.Log(item.effect.GetVariables(caster).Count);
-            abilityVariable.AddRange(item.effect.GetVariables(caster));
-        }
-        string[] values = new string[abilityVariable.Count];
-        for (int i = 0; i < values.Length; i++)
-        {
-            values[i] = abilityVariable[i];
-        }
-        //Debug.Log(cardData.abilityDescription + "//" + values.Length);
-        vizDescription = string.Format(cardData.abilityDescription, values);
-        describtion.text = vizDescription;
+
     }
 
 
-    public int Execute(CharacterViz target)//대상 없음, 대신 캐릭터 매니저가 대상 관리
+    public int Execute(CharacterViz target)
     {
 
 
@@ -166,7 +186,7 @@ public class CardViz : MonoBehaviour
         if (cardAbility == null) return-1;
         foreach (var ability in cardAbility)
         {
-            ability.Execute(this,target);
+            ability.Activate(this,target);
         }
         if (discardNum < 0 || discardNum > 3) return-1;
         return discardNum;

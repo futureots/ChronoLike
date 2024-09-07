@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     public DeckManager deckManager;
     public CostManager costManager;
     public CharacterManager characterManager;
+    public SelectCardUI selectCardUI;
+
 
     public delegate void AbilityActivate();
     public AbilityActivate GameStart;
@@ -27,7 +29,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         ResourceManager.gameResources.GetResources(this);
-
         GameStart();
         StartCoroutine(EndEnemyTurn());
     }
@@ -89,8 +90,10 @@ public class GameManager : MonoBehaviour
         foreach (var item in characterManager.aiList)
         {
             item.CharAction();
+            yield return new WaitForSeconds(1f);
+            characterManager.UpdateCharacter();
         }
-        characterManager.UpdateCharacter();
+        
         yield return null;
         StartCoroutine(EndEnemyTurn());
     }
@@ -170,5 +173,9 @@ public class GameManager : MonoBehaviour
         gameEndObj.transform.GetChild(1).gameObject.SetActive(!isPlayerWin);    
     }
 
-
+    public void SelectUIOpen(List<GameObject> objects, SelectCardUI.SelectedObjectsCommands Command = null)
+    {
+        selectCardUI.gameObject.SetActive(true);
+        selectCardUI.SetObjects(objects, 1, Command);
+    }
 }

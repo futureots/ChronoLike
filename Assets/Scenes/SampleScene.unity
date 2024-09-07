@@ -224,6 +224,7 @@ GameObject:
   - component: {fileID: 113794165}
   - component: {fileID: 113794167}
   - component: {fileID: 113794166}
+  - component: {fileID: 113794168}
   m_Layer: 5
   m_Name: SelectCardWindow
   m_TagString: Untagged
@@ -289,6 +290,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 113794164}
   m_CullTransparentMesh: 1
+--- !u!114 &113794168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113794164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fb9181e1b446ee4db19c1542b0620e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectsTransform: {fileID: 260126882}
+  selectedObjects: []
+  count: 0
 --- !u!1 &137963634
 GameObject:
   m_ObjectHideFlags: 0
@@ -1404,7 +1420,7 @@ MonoBehaviour:
     - Growth
     - Blossom
     - Shield
-    - Barrier
+    - ReduceCost
   enemies:
   - character: Ifrit
     ai: {fileID: 0}
@@ -2354,6 +2370,7 @@ MonoBehaviour:
   deckManager: {fileID: 872748240}
   costManager: {fileID: 357762441}
   characterManager: {fileID: 488298124}
+  selectCardUI: {fileID: 113794168}
 --- !u!1 &868414000
 GameObject:
   m_ObjectHideFlags: 0
