@@ -74,7 +74,10 @@ public class CostCylinder : MonoBehaviour
         Dictionary<ColorType, int> temp = new();
         foreach (var item in values)
         {
-            temp.Add(item.Key, item.Value);
+            if (item.Value > 0)
+            {
+                temp.Add(item.Key, item.Value);
+            }
         }
 
         foreach (var item in cylinder)

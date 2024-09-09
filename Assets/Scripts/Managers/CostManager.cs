@@ -169,6 +169,7 @@ public class CostManager : MonoBehaviour
     {
         Dictionary<ColorType, int> cost = cardViz.costs;
         bool canConsume = costCylinder.CheckConsumable(cost);
+        Debug.Log("canConsume = " + canConsume);
         if (canConsume)
         {
             costCylinder.ConsumeCylinderCost(cardViz.costs);

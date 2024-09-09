@@ -1,0 +1,39 @@
+{
+  
+  "$type": "PlayData, Assembly-CSharp",
+  "partyData": {
+    "$type": "System.Collections.Generic.List`1[[CharData, Assembly-CSharp]], mscorlib",
+    "$values": [
+      {
+        "$type": "CharData, Assembly-CSharp",
+        "characterName": "Ifrit",
+        "characterLevel": 1,
+        "currentHp": 17,
+        "characterDeck": {
+          "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+          "$values": [ "Flame Shot", "Berserk Soul", "WildFire" ]
+        }
+      },
+      {
+        "$type": "CharData, Assembly-CSharp",
+        "characterName": "Undine",
+        "characterLevel": 1,
+        "currentHp": 5,
+        "characterDeck": {
+          "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+          "$values": [ "Bubble Shot", "AdditionalAttack", "Poison", "Hemophillia", "Stun" ]
+        }
+      },
+      {
+        "$type": "CharData, Assembly-CSharp",
+        "characterName": "Alps",
+        "characterLevel": 1,
+        "currentHp": 10,
+        "characterDeck": {
+          "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+          "$values": [ "Growth", "Shield", "ReduceCost", "Blossom" ]
+        }
+      }
+    ]
+  }
+}

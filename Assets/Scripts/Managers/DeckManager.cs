@@ -176,11 +176,12 @@ public class DeckManager : MonoBehaviour
     public List<GameObject> SearchCards(string casterName)
     {
         List<GameObject> cards = new List<GameObject>();
-        for(int i = 0; i < 3; i++)
+        for(int i = 0; i < 4; i++)
         {
             foreach (var item in decks[i])
             {
-                if (item.caster.characterName.Equals(casterName))
+                Debug.Log("caster Name = " + casterName + " // card's caster = " + item.caster.name);
+                if (item.caster.name.Equals(casterName))
                 {
                     cards.Add(item.gameObject);
                 }

@@ -134,6 +134,7 @@ public class GameManager : MonoBehaviour
         costManager.FillCardCost(cardViz);
 
         bool isPaid = costManager.ConsumeCost(cardViz);
+        
         if (!isPaid) return;
         Debug.Log("Cost Paid");
 
@@ -168,14 +169,40 @@ public class GameManager : MonoBehaviour
 
     public void GameEnd(bool isPlayerWin)
     {
+        SaveData();
         gameEndObj.SetActive(true);
         gameEndObj.transform.GetChild(0).gameObject.SetActive(isPlayerWin);
-        gameEndObj.transform.GetChild(1).gameObject.SetActive(!isPlayerWin);    
+        gameEndObj.transform.GetChild(1).gameObject.SetActive(!isPlayerWin);
+        
     }
-
+   
     public void SelectUIOpen(List<GameObject> objects, SelectCardUI.SelectedObjectsCommands Command = null)
     {
         selectCardUI.gameObject.SetActive(true);
         selectCardUI.SetObjects(objects, 1, Command);
+    }
+    public void SaveData()
+    {
+        PlayData playData = new PlayData();
+        playData.partyData = new();
+        foreach (var item in characterManager.playableCharacterList)
+        {
+            CharData temp = new();
+            temp.characterName = item.name;
+            temp.currentHp = Status.GetStatus(item.statusList, "CurrentHp").value;
+            temp.characterLevel = 1;
+            temp.characterDeck = new List<string>();
+            List<GameObject> cards = deckManager.SearchCards(item.name);
+            Debug.Log("deck count ="+cards.Count);
+            foreach (var card in cards)
+            {
+                temp.characterDeck.Add(card.GetComponent<CardViz>().cardData.title);
+            }
+            Debug.Log(temp.characterDeck.Count);
+
+            
+            playData.partyData.Add(temp);
+        }
+        PlayData.SaveData(playData);
     }
 }
