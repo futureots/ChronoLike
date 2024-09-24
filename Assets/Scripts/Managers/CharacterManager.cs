@@ -118,7 +118,7 @@ public class CharacterManager : MonoBehaviour
             aiList.Remove(ai);
         }
         
-        Destroy(inCharacterViz.gameObject);
+        //Destroy(inCharacterViz.gameObject);
     }
 
 
