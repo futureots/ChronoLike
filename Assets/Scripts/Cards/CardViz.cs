@@ -22,6 +22,7 @@ public class CardViz : MonoBehaviour
     public CharacterViz caster;                                                           //시전자
     
     public bool isNeedTarget;
+    public int currentDeckNum;                                                            //현재 이카드가 있는 덱넘버
     public Dictionary<ColorType, int> costs { get; private set; }
     public List<CardAbility> cardAbility;                                                   //카드 능력(키워드)
     public int discardNum;                                                      //카드 사용후 버려질지 소멸될지, 덱 번호값

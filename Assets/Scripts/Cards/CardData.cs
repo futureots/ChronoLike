@@ -10,12 +10,12 @@ public class CardData
     public string title;
     public string imagePath;
     public string abilityDescription;
-    public bool isNeedTarget;
-    
 
+
+    public bool isNeedTarget;
     public ColorType cardColor;
     public Dictionary<ColorType, int> costs;
-
+    public List<CardCost> costs1;
     public List<CardAbility> cardAbility;
 
 

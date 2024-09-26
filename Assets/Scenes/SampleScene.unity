@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1404,30 +1403,12 @@ MonoBehaviour:
   AIPrefab: {fileID: 638836067800330457, guid: 8db427b5095cace42b0a27b8d1556524, type: 3}
   allies:
   - character: Ifrit
-    cards:
-    - WildFire
-    - Flame Shot
-    - Berserk Soul
+    cards: []
   - character: Undine
-    cards:
-    - AdditionalAttack
-    - Hemophillia
-    - Poison
-    - Bubble Shot
-    - Stun
+    cards: []
   - character: Alps
-    cards:
-    - Growth
-    - Blossom
-    - Shield
-    - ReduceCost
-  enemies:
-  - character: Ifrit
-    ai: {fileID: 0}
-  - character: Alps
-    ai: {fileID: 0}
-  - character: Ifrit
-    ai: {fileID: 0}
+    cards: []
+  enemies: []
 --- !u!4 &501519160
 Transform:
   m_ObjectHideFlags: 0

@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class CardCost : MonoBehaviour
+public class CardCost
 {
     public CardViz card;
     public ColorType colorType;
-    public int value;
-    public TextMeshProUGUI text;
-    public void Start()
+    public int basicValue;
+    public int currentValue;
+
+    public CardCost() : this(1) { }
+    public CardCost(int value)
     {
-        text = GetComponentInChildren<TextMeshProUGUI>();
+        basicValue = value;
+        currentValue = value;
     }
-    protected virtual void Update()
+    public virtual void UpdateCostValue()
     {
-        text.text = value.ToString();
+        
     }
 
 }
