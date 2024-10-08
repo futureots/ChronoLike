@@ -1403,12 +1403,15 @@ MonoBehaviour:
   AIPrefab: {fileID: 638836067800330457, guid: 8db427b5095cace42b0a27b8d1556524, type: 3}
   allies:
   - character: Ifrit
-    cards: []
+    cards:
+    - Flame Shot
   - character: Undine
     cards: []
   - character: Alps
     cards: []
-  enemies: []
+  enemies:
+  - character: Alps
+    ai: {fileID: 0}
 --- !u!4 &501519160
 Transform:
   m_ObjectHideFlags: 0
